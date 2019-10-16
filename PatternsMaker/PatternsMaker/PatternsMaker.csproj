@@ -96,7 +96,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Images\" />
     <Folder Include="Symbols\Crochet\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\dmc.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
