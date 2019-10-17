@@ -1,23 +1,18 @@
 ﻿using Syncfusion.Windows.Forms.Grid;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 
 namespace PatternsMaker
 {
     public partial class Form1 : Form
     {
-        char[] delitem = { ';' };
-        char[] delcol = { 'C' };
+        char[] delitem = { ';' }; char[] delcol = { 'C' };
         char[] delrow = { 'R' };
         char[] delsep = { ':' };
         Bitmap loaded_image;
@@ -25,9 +20,12 @@ namespace PatternsMaker
         int x = 50;
         int y = 50;
         int nr_colors = 2;
+        int fill_tresh = 10000;
 
         Size cell_size = new Size(25, 25);
         string path_to_dmc = @"../../Data/dmc.txt";
+
+        private ToolStripProgressBar toolStripProgressBar; // todo add this progressbar when necessary
 
         public Form1()
         {
@@ -39,6 +37,20 @@ namespace PatternsMaker
             this.gridControl1.SelectionChanging += gridControl1_SelectionChanging;
 
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+
+            toolStripProgressBar = new ToolStripProgressBar();
+
+            PixelEditor pixelEditor1 = new PixelEditor();
+            PictureBox pBox_Target = new PictureBox();
+            pBox_Target.Image = new Bitmap(500, 500);
+            pixelEditor1.APBox = pBox_Target;
+            pixelEditor1.TgtBitmap = (Bitmap)pixelEditor1.APBox.Image;
+            tabPage2.Controls.Add(pixelEditor1);
+            tabPage2.Controls.Add(pBox_Target);
+            pixelEditor1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            pixelEditor1.Location = new Point(
+    this.ClientSize.Width / 2 - pixelEditor1.Size.Width / 2,
+    this.ClientSize.Height / 2 - pixelEditor1.Size.Height / 2);
         }
 
 
@@ -86,10 +98,64 @@ namespace PatternsMaker
             // Save to xml
             gridControl1.FileName = "test.xml";
             gridControl1.SaveXml();
-            
+
             // Save to Excel
 
 
+        }
+
+        private void showimage(Bitmap img)
+        {
+            // show image in new form
+            using (Form form = new Form())
+            {
+
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.Size = img.Size;
+
+                PictureBox pb = new PictureBox();
+                pb.Dock = DockStyle.Fill;
+                pb.Image = img;
+
+                form.Controls.Add(pb);
+                form.ShowDialog();
+            }
+        }
+
+        public static bool CompareBitmapsFast(Bitmap bmp1, Bitmap bmp2)
+        {
+            if (bmp1 == null || bmp2 == null)
+                return bmp1 == bmp2;
+            if (object.Equals(bmp1, bmp2))
+                return true;
+            if (!bmp1.Size.Equals(bmp2.Size) || !bmp1.PixelFormat.Equals(bmp2.PixelFormat))
+                return false;
+
+            int bytes = bmp1.Width * bmp1.Height * (Image.GetPixelFormatSize(bmp1.PixelFormat) / 8);
+
+            bool result = true;
+            byte[] b1bytes = new byte[bytes];
+            byte[] b2bytes = new byte[bytes];
+
+            BitmapData bitmapData1 = bmp1.LockBits(new Rectangle(0, 0, bmp1.Width, bmp1.Height), ImageLockMode.ReadOnly, bmp1.PixelFormat);
+            BitmapData bitmapData2 = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, bmp2.PixelFormat);
+
+            Marshal.Copy(bitmapData1.Scan0, b1bytes, 0, bytes);
+            Marshal.Copy(bitmapData2.Scan0, b2bytes, 0, bytes);
+
+            for (int n = 0; n <= bytes - 1; n++)
+            {
+                if (b1bytes[n] != b2bytes[n])
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            bmp1.UnlockBits(bitmapData1);
+            bmp2.UnlockBits(bitmapData2);
+
+            return result;
         }
 
         private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -98,47 +164,142 @@ namespace PatternsMaker
 
             if (listView1.SelectedItems.Count > 0)
             {
-                var item = listView1.SelectedItems[0];
+                var item = listView1.SelectedItems[0]; // item to set
                 Bitmap img = (Bitmap)item.ImageList.Images[item.ImageIndex];
                 img = new Bitmap(img, cell_size);
                 img.MakeTransparent();
 
-                var selected_cells = gridControl1.Selections.Ranges;
-                foreach (var selected_cell_block in selected_cells.ToString().Split(delitem))
+                if (FillCheckBox.Checked)
                 {
-                    if (selected_cells.ToString().Length > 0)
+                    //item to replace
+                    Bitmap img_to_replace = (Bitmap)gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackgroundImage;
+                    List<Point> fill_points = new List<Point>();
+                    bool all_found = false;
+                    Point current = new Point(gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex);
+                    fill_points.Add(current);
+                    int i = 0;
+
+                    
+                    while (!all_found)
                     {
-                        if (selected_cell_block.Contains(":"))
+                        if (i >= fill_points.Count || i > fill_tresh)
                         {
-                            int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
-                            int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
+                            all_found = true;
+                            continue;
+                        }
 
-                            int min_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
-                            int max_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[2].Split(delcol)[0]);
-
-                            for (int i = min_cols; i <= max_cols; i++)
+                        current = fill_points[i];
+                        if (current.X > 0)
+                        {
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y)))
                             {
-                                for (int j = min_rows; j <= max_rows; j++)
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X - 1, current.Y].BackgroundImage, img_to_replace))
+                                {
+                                    fill_points.Add(new Point(current.X - 1, current.Y));
+                                }
+                            }
+                        }
+
+                        if (current.X > 0 && current.Y > 0)
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y - 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X - 1, current.Y - 1].BackgroundImage, img_to_replace))
                                 {
 
-                                    gridControl1[j, i].BackgroundImage = img;
+                                    fill_points.Add(new Point(current.X - 1, current.Y - 1));
                                 }
+
+                        if (current.Y > 0)
+                            if (!fill_points.Contains(new Point(current.X, current.Y - 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X, current.Y - 1].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X, current.Y - 1));
+                                }
+                        if (current.Y > 0 && current.X < gridControl1.RowCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y - 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X + 1, current.Y - 1].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y - 1));
+                                }
+                        if (current.X < gridControl1.RowCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X + 1, current.Y].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y));
+                                }
+                        if (current.X < gridControl1.RowCount && current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y + 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X + 1, current.Y + 1].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y + 1));
+                                }
+                        if (current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X, current.Y + 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X, current.Y + 1].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X, current.Y + 1));
+                                }
+                        if (current.X > 0 && current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y + 1)))
+                                if (CompareBitmapsFast((Bitmap)gridControl1[current.X - 1, current.Y + 1].BackgroundImage, img_to_replace))
+                                {
+
+                                    fill_points.Add(new Point(current.X - 1, current.Y + 1));
+                                }
+
+                        i++;
+                    }
+
+
+                    foreach (Point p in fill_points)
+                    {
+                        gridControl1[p.X, p.Y].BackgroundImage = img;
+                    }
+
+                }
+                else
+                {
+                    var selected_cells = gridControl1.Selections.Ranges;
+                    foreach (var selected_cell_block in selected_cells.ToString().Split(delitem))
+                    {
+                        if (selected_cells.ToString().Length > 0)
+                        {
+                            if (selected_cell_block.Contains(":"))
+                            {
+                                int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
+                                int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
+
+                                int min_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                                int max_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[2].Split(delcol)[0]);
+
+                                for (int i = min_cols; i <= max_cols; i++)
+                                {
+                                    for (int j = min_rows; j <= max_rows; j++)
+                                    {
+
+                                        gridControl1[j, i].BackgroundImage = img;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
+                                int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                                gridControl1[rows, cols].BackgroundImage = img;
                             }
                         }
                         else
                         {
-                            int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
-                            int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
-                            gridControl1[rows, cols].BackgroundImage = img;
-                        }
-                    }
-                    else
-                    {
-                        // get current active cell
-                        if (gridControl1.CurrentCell.ColIndex > 0)
-                        {
+                            // get current active cell
+                            if (gridControl1.CurrentCell.ColIndex > 0)
+                            {
 
-                            gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackgroundImage = img;
+                                gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackgroundImage = img;
+                            }
                         }
                     }
                 }
@@ -159,7 +320,6 @@ namespace PatternsMaker
                 {
                     if (selected_cell_block.Contains(":"))
                     {
-                        //Console.WriteLine(selected_cell_block);
                         int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
                         int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
 
@@ -175,11 +335,16 @@ namespace PatternsMaker
                     else
                     {
                         // todo fix when a row or columns is selected!
-                        
-                        int cols = 1 + int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
-                        int rows = 1 + int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
-                        SelectedSize.Text = "x = " + cols + ", y = " + rows;
-
+                        try
+                        {
+                            int cols = 1 + int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
+                            int rows = 1 + int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                            SelectedSize.Text = "x = " + cols + ", y = " + rows;
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("WARNING: TODO fix when row or column is selected!");
+                        }
                     }
 
                 }
@@ -213,46 +378,139 @@ namespace PatternsMaker
             if (listView3.SelectedItems.Count > 0)
             {
                 var item = listView3.SelectedItems[0];
-                var color = item.BackColor;
-             
-                var selected_cells = gridControl1.Selections.Ranges;
-                char[] delitem = { ';' };
-                foreach (var selected_cell_block in selected_cells.ToString().Split(delitem))
+                Color color = item.BackColor;
+
+                if (FillCheckBox.Checked)
                 {
-                    if (selected_cells.ToString().Length > 0)
+                    //item to replace
+                    Color color_to_replace = gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackColor;
+                    List<Point> fill_points = new List<Point>();
+                    bool all_found = false;
+                    Point current = new Point(gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex);
+                    fill_points.Add(current);
+                    int i = 0;
+
+                    while (!all_found)
                     {
-                        if (selected_cell_block.Contains(":"))
+                        if (i >= fill_points.Count || i > fill_tresh)
                         {
-
-                            int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
-                            int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
-
-                            int min_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
-                            int max_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[2].Split(delcol)[0]);
-
-                            
-                            for (int i = min_cols; i <= max_cols; i++)
+                            all_found = true;
+                            continue;
+                        }
+                        current = fill_points[i];
+                        if (current.X > 0)
+                        {
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y)))
                             {
-                                for (int j = min_rows; j <= max_rows; j++)
+                                if (gridControl1[current.X - 1, current.Y].BackColor == color_to_replace)
                                 {
-                                    gridControl1[j, i].BackColor = color;
+                                    fill_points.Add(new Point(current.X - 1, current.Y));
                                 }
+                            }
+                        }
+
+                        if (current.X > 0 && current.Y > 0)
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y - 1)))
+                                if (gridControl1[current.X - 1, current.Y - 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X - 1, current.Y - 1));
+                                }
+
+                        if (current.Y > 0)
+                            if (!fill_points.Contains(new Point(current.X, current.Y - 1)))
+                                if (gridControl1[current.X, current.Y - 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X, current.Y - 1));
+                                }
+                        if (current.Y > 0 && current.X < gridControl1.RowCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y - 1)))
+                                if (gridControl1[current.X + 1, current.Y - 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y - 1));
+                                }
+                        if (current.X < gridControl1.RowCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y)))
+                                if (gridControl1[current.X + 1, current.Y].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y));
+                                }
+                        if (current.X < gridControl1.RowCount && current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X + 1, current.Y + 1)))
+                                if (gridControl1[current.X + 1, current.Y + 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X + 1, current.Y + 1));
+                                }
+                        if (current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X, current.Y + 1)))
+                                if (gridControl1[current.X, current.Y + 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X, current.Y + 1));
+                                }
+                        if (current.X > 0 && current.Y < gridControl1.ColCount)
+                            if (!fill_points.Contains(new Point(current.X - 1, current.Y + 1)))
+                                if (gridControl1[current.X - 1, current.Y + 1].BackColor == color_to_replace)
+                                {
+
+                                    fill_points.Add(new Point(current.X - 1, current.Y + 1));
+                                }
+
+                        i++;
+                    }
+
+
+                    foreach (Point p in fill_points)
+                    {
+                        gridControl1[p.X, p.Y].BackColor = color;
+                    }
+
+                }
+                else
+                {
+                    var selected_cells = gridControl1.Selections.Ranges;
+                    char[] delitem = { ';' };
+                    foreach (var selected_cell_block in selected_cells.ToString().Split(delitem))
+                    {
+                        if (selected_cells.ToString().Length > 0)
+                        {
+                            if (selected_cell_block.Contains(":"))
+                            {
+
+                                int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
+                                int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
+
+                                int min_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                                int max_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[2].Split(delcol)[0]);
+
+
+                                for (int i = min_cols; i <= max_cols; i++)
+                                {
+                                    for (int j = min_rows; j <= max_rows; j++)
+                                    {
+                                        gridControl1[j, i].BackColor = color;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
+                                int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                                gridControl1[rows, cols].BackColor = color;
+
                             }
                         }
                         else
                         {
-                            int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
-                            int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
-                            gridControl1[rows, cols].BackColor = color;
+                            if (gridControl1.CurrentCell.ColIndex > 0)
+                            {
+                                gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackColor = color;
 
-                        }
-                    }
-                    else
-                    {
-                        if (gridControl1.CurrentCell.ColIndex > 0)
-                        {
-                            gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackColor = color;
-
+                            }
                         }
                     }
                 }
@@ -276,7 +534,7 @@ namespace PatternsMaker
             if (result == DialogResult.OK) // Test result.
             {
                 string loaded_image_path = openFileDialog1.FileName;
-             
+
                 using (Stream bmpStream = System.IO.File.Open(loaded_image_path, System.IO.FileMode.Open))
                 {
                     Image image = Image.FromStream(bmpStream);
@@ -287,7 +545,7 @@ namespace PatternsMaker
                 }
                 // loaded_image
             }
-          
+
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -303,61 +561,62 @@ namespace PatternsMaker
             listView2.Items.Clear();
             imageList2.Images.Clear();
 
-            if(loaded_image != null) { 
+            if (loaded_image != null)
+            {
 
-            // pixelize 1
-            Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
-            
-            string key = listView2.Items.Count.ToString();
+                // pixelize 1
+                Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
 
-            imageList2.ImageSize = new Size(200, 200);
+                string key = listView2.Items.Count.ToString();
 
-            imageList2.Images.Add(key, image1);
+                imageList2.ImageSize = new Size(200, 200);
 
-            // add an item
-            var listViewItem = listView2.Items.Add("");
-            // and tell the item which image to use
-            listViewItem.ImageKey = key;
+                imageList2.Images.Add(key, image1);
 
-            // palett color 1 
-            Bitmap image2 = loaded_image;
+                // add an item
+                var listViewItem = listView2.Items.Add("");
+                // and tell the item which image to use
+                listViewItem.ImageKey = key;
 
-            key = listView2.Items.Count.ToString();
+                // palett color 1 
+                Bitmap image2 = loaded_image;
 
-             // todo fix with colors here!
-            Color[] colors = new Color[] { Color.Black, Color.White };
-            Bitmap newImage = ConvertToColors(image2, colors);
-            ColorPalette pal = newImage.Palette;
-            pal.Entries[0] = Color.Blue;
-            pal.Entries[1] = Color.Yellow;
-            newImage.Palette = pal;
+                key = listView2.Items.Count.ToString();
 
-            imageList2.ImageSize = new Size(200, 200);
-            imageList2.Images.Add(key, newImage);
+                // todo fix with colors here!
+                Color[] colors = new Color[] { Color.Black, Color.White };
+                Bitmap newImage = ConvertToColors(image2, colors);
+                ColorPalette pal = newImage.Palette;
+                pal.Entries[0] = Color.Blue;
+                pal.Entries[1] = Color.Yellow;
+                newImage.Palette = pal;
 
-            // add an item
-            listViewItem = listView2.Items.Add(" ");
-            // and tell the item which image to use
-            listViewItem.ImageKey = key;
+                imageList2.ImageSize = new Size(200, 200);
+                imageList2.Images.Add(key, newImage);
 
-            // combine first two 1
-            Bitmap image3 = image1;
-            key = listView2.Items.Count.ToString();
+                // add an item
+                listViewItem = listView2.Items.Add(" ");
+                // and tell the item which image to use
+                listViewItem.ImageKey = key;
 
-            colors = new Color[] { Color.Black, Color.White };
-            newImage = ConvertToColors(image3, colors);
-            pal = newImage.Palette;
-            pal.Entries[0] = Color.Blue;
-            pal.Entries[1] = Color.Yellow;
-            newImage.Palette = pal;
+                // combine first two 1
+                Bitmap image3 = image1;
+                key = listView2.Items.Count.ToString();
 
-            imageList2.ImageSize = new Size(200, 200);
-            imageList2.Images.Add(key, newImage);
+                colors = new Color[] { Color.Black, Color.White };
+                newImage = ConvertToColors(image3, colors);
+                pal = newImage.Palette;
+                pal.Entries[0] = Color.Blue;
+                pal.Entries[1] = Color.Yellow;
+                newImage.Palette = pal;
 
-            // add an item
-            listViewItem = listView2.Items.Add(" ");
-            // and tell the item which image to use
-            listViewItem.ImageKey = key;
+                imageList2.ImageSize = new Size(200, 200);
+                imageList2.Images.Add(key, newImage);
+
+                // add an item
+                listViewItem = listView2.Items.Add(" ");
+                // and tell the item which image to use
+                listViewItem.ImageKey = key;
             }
 
         }
@@ -552,7 +811,7 @@ namespace PatternsMaker
             {
                 // will pass this for now
             }
-           
+
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
@@ -562,12 +821,12 @@ namespace PatternsMaker
             {
                 //pixel size
                 pixel_size = int.Parse(textBox4.Text);
-        }
+            }
             catch (Exception)
             {
                 // will pass this for now
             }
-}
+        }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
@@ -606,14 +865,14 @@ namespace PatternsMaker
                 string pattern_path = openFileDialog1.FileName;
 
                 gridControl1.InitializeFromXml(pattern_path);
-                
+
                 // open xml or excel document
 
                 // visualize on gridControl1
             }
         }
 
-            private void button4_Click(object sender, EventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
             // resize gridcontrol cells
             gridControl1.ResetColWidthEntries();
@@ -623,8 +882,151 @@ namespace PatternsMaker
         private void button3_Click(object sender, EventArgs e)
         {
             // reset gridcontrol
-                gridControl1.ClearCells(GridRangeInfo.Table(), true);
+            gridControl1.ClearCells(GridRangeInfo.Table(), true);
+        }
+
+        private void FillCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void integerTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            fill_tresh = int.Parse(integerTextBox1.Text);
+        }
+
+        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            gridControl1.ClearCells(gridControl1.Selections.Ranges, true);
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
         }
     }
-    
+
+}
+class PixelEditor : Panel
+{
+    public Color DrawColor { get; set; }
+    public Color GridColor { get; set; }
+    int pixelSize = 8;
+    public int PixelSize
+    {
+        get { return pixelSize; }
+        set
+        {
+            pixelSize = value;
+            Invalidate();
+        }
+    }
+
+
+    public Bitmap TgtBitmap { get; set; }
+    public Point TgtMousePos { get; set; }
+
+    Point lastPoint = Point.Empty;
+
+    PictureBox aPBox = null;
+    public PictureBox APBox
+    {
+        get { return aPBox; }
+        set
+        {
+            if (value == null) return;
+            aPBox = value;
+            aPBox.MouseClick -= APBox_MouseClick;
+            aPBox.MouseClick += APBox_MouseClick;
+        }
+    }
+
+    private void APBox_MouseClick(object sender, MouseEventArgs e)
+    {
+        TgtMousePos = e.Location;
+        Invalidate();
+    }
+
+
+    public PixelEditor()
+    {
+        DoubleBuffered = true;
+        BackColor = Color.White;
+        GridColor = Color.DimGray;
+        DrawColor = Color.Red;
+        PixelSize = 10;
+        TgtMousePos = Point.Empty;
+
+        if (APBox != null && APBox.Image != null)
+            TgtBitmap = (Bitmap)APBox.Image;
+
+        MouseClick += PixelEditor_MouseClick;
+        MouseMove += PixelEditor_MouseMove;
+        Paint += PixelEditor_Paint;
+    }
+
+    private void PixelEditor_Paint(object sender, PaintEventArgs e)
+    {
+        if (DesignMode) return;
+
+        Graphics g = e.Graphics;
+
+        int cols = ClientSize.Width / PixelSize;
+        int rows = ClientSize.Height / PixelSize;
+
+        if (TgtMousePos.X < 0 || TgtMousePos.Y < 0) return;
+
+        for (int x = 0; x < cols; x++)
+            for (int y = 0; y < rows; y++)
+            {
+                int sx = TgtMousePos.X + x;
+                int sy = TgtMousePos.Y + y;
+
+                if (sx > TgtBitmap.Width || sy > TgtBitmap.Height) continue;
+
+                Color col = TgtBitmap.GetPixel(sx, sy);
+
+                using (SolidBrush b = new SolidBrush(col))
+                using (Pen p = new Pen(GridColor))
+                {
+                    Rectangle rect = new Rectangle(x * PixelSize, y * PixelSize,
+                                                       PixelSize, PixelSize);
+                    g.FillRectangle(b, rect);
+                    g.DrawRectangle(p, rect);
+                }
+            }
+    }
+
+    private void PixelEditor_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (e.Button != MouseButtons.Left) return;
+
+        int x = TgtMousePos.X + e.X / PixelSize;
+        int y = TgtMousePos.Y + e.Y / PixelSize;
+
+        if (new Point(x, y) == lastPoint) return;
+
+        Bitmap bmp = (Bitmap)APBox.Image;
+        bmp.SetPixel(x, y, DrawColor);
+        APBox.Image = bmp;
+        Invalidate();
+        lastPoint = new Point(x, y);
+    }
+
+    private void PixelEditor_MouseClick(object sender, MouseEventArgs e)
+    {
+        int x = TgtMousePos.X + e.X / PixelSize;
+        int y = TgtMousePos.Y + e.Y / PixelSize;
+        Bitmap bmp = (Bitmap)APBox.Image;
+        bmp.SetPixel(x, y, DrawColor);
+        APBox.Image = bmp;
+        Invalidate();
+    }
+
+
 }

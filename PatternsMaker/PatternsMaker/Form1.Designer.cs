@@ -52,47 +52,68 @@
             System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem("", 19);
             System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem("", 20);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem("", 16);
-            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem("", 15);
-            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem("", 0);
-            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem("", 1);
-            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem("", 2);
-            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem("", 3);
-            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem("", 4);
-            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem("", 5);
-            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem("", 6);
-            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem("", 7);
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("", 8);
-            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem("", 9);
-            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem("", 10);
-            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem("", 11);
-            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem("", 12);
-            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem("", 13);
-            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem("", 14);
-            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem("", 17);
-            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem("", 18);
-            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem("", 19);
-            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem("", 20);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("", 16);
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("", 15);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("", 0);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem("", 1);
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem("", 2);
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem("", 3);
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem("", 4);
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem("", 5);
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem("", 6);
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem("", 7);
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("", 8);
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem("", 9);
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem("", 10);
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem("", 11);
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem("", 12);
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem("", 13);
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem("", 14);
+            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem("", 17);
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem("", 18);
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem("", 19);
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem("", 20);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.CrochetTab = new System.Windows.Forms.TabPage();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.integerTextBox1 = new Syncfusion.Windows.Forms.Tools.IntegerTextBox();
+            this.FillCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.SelectedSize = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.listView3 = new System.Windows.Forms.ListView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.gridControl1 = new Syncfusion.Windows.Forms.Grid.GridControl();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.listView5 = new System.Windows.Forms.ListView();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.listView4 = new System.Windows.Forms.ListView();
             this.KnittingTab = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -104,48 +125,34 @@
             this.label4 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.button8 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.Generate = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.listView2 = new System.Windows.Forms.ListView();
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.openImagebutton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.listView4 = new System.Windows.Forms.ListView();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.listView5 = new System.Windows.Forms.ListView();
             this.flowLayout1 = new Syncfusion.Windows.Forms.Tools.FlowLayout(this.components);
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.CrochetTab.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerTextBox1)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.KnittingTab.SuspendLayout();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage1.SuspendLayout();
-            this.groupBox7.SuspendLayout();
-            this.groupBox8.SuspendLayout();
-            this.groupBox9.SuspendLayout();
-            this.groupBox11.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.KnittingTab.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.flowLayout1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -157,6 +164,7 @@
             this.tabControl1.Controls.Add(this.CrochetTab);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.KnittingTab);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -165,12 +173,12 @@
             // 
             // CrochetTab
             // 
+            this.CrochetTab.Controls.Add(this.groupBox12);
             this.CrochetTab.Controls.Add(this.groupBox5);
             this.CrochetTab.Controls.Add(this.groupBox4);
             this.CrochetTab.Controls.Add(this.groupBox3);
             this.CrochetTab.Controls.Add(this.groupBox2);
             this.CrochetTab.Controls.Add(this.gridControl1);
-            this.CrochetTab.Controls.Add(this.comboBox1);
             this.CrochetTab.Controls.Add(this.groupBox1);
             this.CrochetTab.Location = new System.Drawing.Point(4, 25);
             this.CrochetTab.Name = "CrochetTab";
@@ -180,11 +188,54 @@
             this.CrochetTab.Text = "Grid Pattern";
             this.CrochetTab.UseVisualStyleBackColor = true;
             // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.label12);
+            this.groupBox12.Controls.Add(this.integerTextBox1);
+            this.groupBox12.Controls.Add(this.FillCheckBox);
+            this.groupBox12.Location = new System.Drawing.Point(767, 16);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(270, 44);
+            this.groupBox12.TabIndex = 12;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Functions";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(86, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(72, 17);
+            this.label12.TabIndex = 2;
+            this.label12.Text = "Threshold";
+            // 
+            // integerTextBox1
+            // 
+            this.integerTextBox1.BeforeTouchSize = new System.Drawing.Size(100, 22);
+            this.integerTextBox1.IntegerValue = ((long)(10000));
+            this.integerTextBox1.Location = new System.Drawing.Point(164, 16);
+            this.integerTextBox1.Name = "integerTextBox1";
+            this.integerTextBox1.Size = new System.Drawing.Size(100, 22);
+            this.integerTextBox1.TabIndex = 1;
+            this.integerTextBox1.Text = "10 000";
+            this.integerTextBox1.TextChanged += new System.EventHandler(this.integerTextBox1_TextChanged);
+            // 
+            // FillCheckBox
+            // 
+            this.FillCheckBox.AutoSize = true;
+            this.FillCheckBox.Location = new System.Drawing.Point(7, 17);
+            this.FillCheckBox.Name = "FillCheckBox";
+            this.FillCheckBox.Size = new System.Drawing.Size(47, 21);
+            this.FillCheckBox.TabIndex = 0;
+            this.FillCheckBox.Text = "Fill";
+            this.FillCheckBox.UseVisualStyleBackColor = true;
+            this.FillCheckBox.CheckedChanged += new System.EventHandler(this.FillCheckBox_CheckedChanged);
+            // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.SelectedSize);
             this.groupBox5.Controls.Add(this.label2);
-            this.groupBox5.Location = new System.Drawing.Point(398, 16);
+            this.groupBox5.Location = new System.Drawing.Point(558, 16);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(203, 44);
             this.groupBox5.TabIndex = 11;
@@ -239,14 +290,25 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.button3);
             this.groupBox3.Controls.Add(this.button4);
             this.groupBox3.Location = new System.Drawing.Point(193, 6);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(198, 54);
+            this.groupBox3.Size = new System.Drawing.Size(293, 54);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "View";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(188, 23);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(82, 24);
+            this.button5.TabIndex = 8;
+            this.button5.Text = "Clear";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click_1);
             // 
             // button3
             // 
@@ -260,7 +322,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(110, 21);
+            this.button4.Location = new System.Drawing.Point(100, 22);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(82, 24);
             this.button4.TabIndex = 7;
@@ -352,14 +414,6 @@
             this.gridControl1.UseRightToLeftCompatibleTextBox = true;
             this.gridControl1.CellClick += new Syncfusion.Windows.Forms.Grid.GridCellClickEventHandler(this.gridControl1_CellClick);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(743, 30);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(149, 24);
-            this.comboBox1.TabIndex = 2;
-            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -441,6 +495,125 @@
             this.imageList1.Images.SetKeyName(19, "workedinback.png");
             this.imageList1.Images.SetKeyName(20, "workedinfront.png");
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox10);
+            this.tabPage1.Controls.Add(this.groupBox11);
+            this.tabPage1.Controls.Add(this.groupBox9);
+            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(1049, 459);
+            this.tabPage1.TabIndex = 2;
+            this.tabPage1.Text = "Float Pattern";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox10.Controls.Add(this.listView5);
+            this.groupBox10.Location = new System.Drawing.Point(901, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(145, 453);
+            this.groupBox10.TabIndex = 11;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Color";
+            // 
+            // listView5
+            // 
+            this.listView5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView5.HideSelection = false;
+            this.listView5.Location = new System.Drawing.Point(7, 22);
+            this.listView5.Name = "listView5";
+            this.listView5.Size = new System.Drawing.Size(132, 425);
+            this.listView5.TabIndex = 0;
+            this.listView5.UseCompatibleStateImageBehavior = false;
+            this.listView5.View = System.Windows.Forms.View.List;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.button9);
+            this.groupBox11.Controls.Add(this.button10);
+            this.groupBox11.Location = new System.Drawing.Point(157, 3);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(178, 54);
+            this.groupBox11.TabIndex = 10;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "File";
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(6, 21);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(75, 24);
+            this.button9.TabIndex = 4;
+            this.button9.Text = "Open";
+            this.button9.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(87, 21);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(83, 24);
+            this.button10.TabIndex = 3;
+            this.button10.Text = "Save";
+            this.button10.UseVisualStyleBackColor = true;
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox9.Controls.Add(this.listView4);
+            this.groupBox9.Location = new System.Drawing.Point(3, 3);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(148, 453);
+            this.groupBox9.TabIndex = 2;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Symbols";
+            // 
+            // listView4
+            // 
+            this.listView4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            listViewGroup1.Header = "ListViewGroup";
+            listViewGroup1.Name = "listViewGroup1";
+            this.listView4.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1});
+            this.listView4.HideSelection = false;
+            this.listView4.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9,
+            listViewItem10,
+            listViewItem11,
+            listViewItem12,
+            listViewItem13,
+            listViewItem14,
+            listViewItem15,
+            listViewItem16,
+            listViewItem17,
+            listViewItem18,
+            listViewItem19,
+            listViewItem20,
+            listViewItem21});
+            this.listView4.LargeImageList = this.imageList1;
+            this.listView4.Location = new System.Drawing.Point(3, 21);
+            this.listView4.Name = "listView4";
+            this.listView4.Size = new System.Drawing.Size(135, 426);
+            this.listView4.SmallImageList = this.imageList1;
+            this.listView4.StateImageList = this.imageList1;
+            this.listView4.TabIndex = 0;
+            this.listView4.UseCompatibleStateImageBehavior = false;
+            this.listView4.View = System.Windows.Forms.View.List;
+            // 
             // KnittingTab
             // 
             this.KnittingTab.Controls.Add(this.groupBox8);
@@ -458,6 +631,99 @@
             this.KnittingTab.TabIndex = 1;
             this.KnittingTab.Text = "Generate";
             this.KnittingTab.UseVisualStyleBackColor = true;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox8.Controls.Add(this.label11);
+            this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Controls.Add(this.label3);
+            this.groupBox8.Controls.Add(this.pictureBox1);
+            this.groupBox8.Location = new System.Drawing.Point(596, 7);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(447, 100);
+            this.groupBox8.TabIndex = 12;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Image Info";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(96, 26);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(78, 17);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "1080x1920";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(17, 26);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(77, 17);
+            this.label10.TabIndex = 17;
+            this.label10.Text = "Image Size";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(96, 49);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(166, 17);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Currently Opened Image:";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(268, 11);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(173, 84);
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.textBox5);
+            this.groupBox7.Controls.Add(this.label9);
+            this.groupBox7.Controls.Add(this.checkBox1);
+            this.groupBox7.Location = new System.Drawing.Point(9, 397);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(383, 56);
+            this.groupBox7.TabIndex = 11;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Visuals";
+            // 
+            // textBox5
+            // 
+            this.textBox5.Location = new System.Drawing.Point(175, 19);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 22);
+            this.textBox5.TabIndex = 16;
+            this.textBox5.Text = "200";
+            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(92, 22);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(77, 17);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "Image Size";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(7, 22);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(63, 21);
+            this.checkBox1.TabIndex = 0;
+            this.checkBox1.Text = "Clear";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // groupBox6
             // 
@@ -570,16 +836,6 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Nr of Colors";
             // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(96, 49);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 17);
-            this.label3.TabIndex = 9;
-            this.label3.Text = "Currently Opened Image:";
-            // 
             // button8
             // 
             this.button8.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -610,16 +866,6 @@
             this.Generate.Text = "Generate";
             this.Generate.UseVisualStyleBackColor = true;
             this.Generate.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Location = new System.Drawing.Point(268, 11);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(173, 84);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // listView2
             // 
@@ -657,197 +903,15 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // tabPage1
+            // tabPage2
             // 
-            this.tabPage1.Controls.Add(this.groupBox10);
-            this.tabPage1.Controls.Add(this.groupBox11);
-            this.tabPage1.Controls.Add(this.groupBox9);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1049, 459);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Float Pattern";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.textBox5);
-            this.groupBox7.Controls.Add(this.label9);
-            this.groupBox7.Controls.Add(this.checkBox1);
-            this.groupBox7.Location = new System.Drawing.Point(9, 397);
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(383, 56);
-            this.groupBox7.TabIndex = 11;
-            this.groupBox7.TabStop = false;
-            this.groupBox7.Text = "Visuals";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(7, 22);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(63, 21);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Clear";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(175, 19);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 22);
-            this.textBox5.TabIndex = 16;
-            this.textBox5.Text = "200";
-            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(92, 22);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(77, 17);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "Image Size";
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox8.Controls.Add(this.label11);
-            this.groupBox8.Controls.Add(this.label10);
-            this.groupBox8.Controls.Add(this.label3);
-            this.groupBox8.Controls.Add(this.pictureBox1);
-            this.groupBox8.Location = new System.Drawing.Point(596, 7);
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(447, 100);
-            this.groupBox8.TabIndex = 12;
-            this.groupBox8.TabStop = false;
-            this.groupBox8.Text = "Image Info";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(17, 26);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(77, 17);
-            this.label10.TabIndex = 17;
-            this.label10.Text = "Image Size";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(96, 26);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(78, 17);
-            this.label11.TabIndex = 18;
-            this.label11.Text = "1080x1920";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox9.Controls.Add(this.listView4);
-            this.groupBox9.Location = new System.Drawing.Point(3, 3);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(148, 453);
-            this.groupBox9.TabIndex = 2;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "Symbols";
-            // 
-            // listView4
-            // 
-            this.listView4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            listViewGroup2.Header = "ListViewGroup";
-            listViewGroup2.Name = "listViewGroup1";
-            this.listView4.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup2});
-            this.listView4.HideSelection = false;
-            this.listView4.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem22,
-            listViewItem23,
-            listViewItem24,
-            listViewItem25,
-            listViewItem26,
-            listViewItem27,
-            listViewItem28,
-            listViewItem29,
-            listViewItem30,
-            listViewItem31,
-            listViewItem32,
-            listViewItem33,
-            listViewItem34,
-            listViewItem35,
-            listViewItem36,
-            listViewItem37,
-            listViewItem38,
-            listViewItem39,
-            listViewItem40,
-            listViewItem41,
-            listViewItem42});
-            this.listView4.LargeImageList = this.imageList1;
-            this.listView4.Location = new System.Drawing.Point(3, 21);
-            this.listView4.Name = "listView4";
-            this.listView4.Size = new System.Drawing.Size(135, 426);
-            this.listView4.SmallImageList = this.imageList1;
-            this.listView4.StateImageList = this.imageList1;
-            this.listView4.TabIndex = 0;
-            this.listView4.UseCompatibleStateImageBehavior = false;
-            this.listView4.View = System.Windows.Forms.View.List;
-            // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.button9);
-            this.groupBox11.Controls.Add(this.button10);
-            this.groupBox11.Location = new System.Drawing.Point(157, 3);
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(178, 54);
-            this.groupBox11.TabIndex = 10;
-            this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "File";
-            // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(6, 21);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 24);
-            this.button9.TabIndex = 4;
-            this.button9.Text = "Open";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(87, 21);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(83, 24);
-            this.button10.TabIndex = 3;
-            this.button10.Text = "Save";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox10.Controls.Add(this.listView5);
-            this.groupBox10.Location = new System.Drawing.Point(901, 3);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(145, 453);
-            this.groupBox10.TabIndex = 11;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Color";
-            // 
-            // listView5
-            // 
-            this.listView5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView5.HideSelection = false;
-            this.listView5.Location = new System.Drawing.Point(7, 22);
-            this.listView5.Name = "listView5";
-            this.listView5.Size = new System.Drawing.Size(132, 425);
-            this.listView5.TabIndex = 0;
-            this.listView5.UseCompatibleStateImageBehavior = false;
-            this.listView5.View = System.Windows.Forms.View.List;
+            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1049, 459);
+            this.tabPage2.TabIndex = 3;
+            this.tabPage2.Text = "PixelEditor";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // Form1
             // 
@@ -859,6 +923,9 @@
             this.Text = "Patterns Maker";
             this.tabControl1.ResumeLayout(false);
             this.CrochetTab.ResumeLayout(false);
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.integerTextBox1)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -866,18 +933,18 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.KnittingTab.ResumeLayout(false);
-            this.groupBox6.ResumeLayout(false);
-            this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tabPage1.ResumeLayout(false);
-            this.groupBox7.ResumeLayout(false);
-            this.groupBox7.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.KnittingTab.ResumeLayout(false);
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
-            this.groupBox9.ResumeLayout(false);
-            this.groupBox11.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.flowLayout1)).EndInit();
             this.ResumeLayout(false);
 
@@ -890,7 +957,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabPage KnittingTab;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button2;
         private Syncfusion.Windows.Forms.Grid.GridControl gridControl1;
         private System.Windows.Forms.ListView listView1;
@@ -940,6 +1006,12 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.ListView listView4;
         private Syncfusion.Windows.Forms.Tools.FlowLayout flowLayout1;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.CheckBox FillCheckBox;
+        private System.Windows.Forms.Label label12;
+        private Syncfusion.Windows.Forms.Tools.IntegerTextBox integerTextBox1;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
