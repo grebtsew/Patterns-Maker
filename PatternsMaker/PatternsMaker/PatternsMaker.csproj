@@ -98,6 +98,7 @@
   <ItemGroup>
     <Folder Include="Images\" />
     <Folder Include="Symbols\Crochet\" />
+    <Folder Include="Symbols\Knitting\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\dmc.txt" />

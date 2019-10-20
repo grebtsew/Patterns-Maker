@@ -4,12 +4,37 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 
+// TODO Ctrl +v +c +z
+// Knitting
+// pattern to excel
+// test excel
+// dragable
+// fix nicer gui placeing and size
+// fix nicer gui colors
+
 namespace PatternsMaker
 {
+    public struct Cell
+    {
+        public int x, y;
+        public Color? color;
+        public Bitmap symbol;
+
+        public Cell(int x, int y, Color? color, Bitmap symbol)
+        {
+
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.symbol = symbol;
+        }
+    }
+
     public partial class Form1 : Form
     {
         char[] delitem = { ';' }; char[] delcol = { 'C' };
@@ -21,6 +46,10 @@ namespace PatternsMaker
         int y = 50;
         int nr_colors = 2;
         int fill_tresh = 10000;
+
+
+        List<Cell> tmp_saved = new List<Cell>();
+        List<Cell> tmp_latest = new List<Cell>();
 
         Size cell_size = new Size(25, 25);
         string path_to_dmc = @"../../Data/dmc.txt";
@@ -40,19 +69,102 @@ namespace PatternsMaker
 
             toolStripProgressBar = new ToolStripProgressBar();
 
-            PixelEditor pixelEditor1 = new PixelEditor();
-            PictureBox pBox_Target = new PictureBox();
-            pBox_Target.Image = new Bitmap(500, 500);
-            pixelEditor1.APBox = pBox_Target;
-            pixelEditor1.TgtBitmap = (Bitmap)pixelEditor1.APBox.Image;
-            tabPage2.Controls.Add(pixelEditor1);
-            tabPage2.Controls.Add(pBox_Target);
-            pixelEditor1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            pixelEditor1.Location = new Point(
-    this.ClientSize.Width / 2 - pixelEditor1.Size.Width / 2,
-    this.ClientSize.Height / 2 - pixelEditor1.Size.Height / 2);
+            this.gridControl1.CommandStack.Enabled = true; // for ctrl-z function
+
+            
         }
 
+        private void add_border(List<Point> cells)
+        {
+            foreach ( Point p in cells)
+            {
+                gridControl1[p.Y,p.X].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.Black, GridBorderWeight.Medium);
+            }
+        }
+
+        private void add_border_all()
+        {
+            // add border to all cells
+
+            foreach (int i in Enumerable.Range(0, gridControl1.ColStyles.Count))
+            {
+                gridControl1.ColStyles[i].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.Black, GridBorderWeight.Medium);
+            }
+        }
+
+        private List<Point> get_selected_cells()
+        {
+            List<Point> res = new List<Point>();
+            var selected_cells = gridControl1.Selections.Ranges;
+            foreach (var selected_cell_block in selected_cells.ToString().Split(delitem))
+            {
+                if (selected_cells.ToString().Length > 0)
+                {
+                    if (selected_cell_block.Contains(":"))
+                    {
+                        int min_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1].Split(delsep)[0]);
+                        int max_cols = int.Parse(selected_cell_block.ToString().Split(delcol)[2].Split(delcol)[0]);
+
+                        int min_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                        int max_rows = int.Parse(selected_cell_block.ToString().Split(delrow)[2].Split(delcol)[0]);
+
+                        for (int i = min_cols; i <= max_cols; i++)
+                        {
+                            for (int j = min_rows; j <= max_rows; j++)
+                            {
+                                res.Add(new Point(i, j));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
+                        int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                        res.Add(new Point(rows, cols));
+                    }
+                }
+                else
+                {
+                    // get current active cell
+                    if (gridControl1.CurrentCell.ColIndex > 0)
+                    {
+                        res.Add(new Point(gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex));
+                    }
+                }
+
+            }
+            return res;
+        }
+
+
+        private void do_changes(List<Cell> changes)
+        {
+            if (changes == null)
+            {
+                return;
+            }
+
+            // Preform changes to gridControl and remember last change
+            List<Cell> old = new List<Cell>();
+
+            List<Point> marked = get_selected_cells();
+
+
+
+            foreach (Cell cell in changes)
+            {
+                old.Add(new Cell(cell.x, cell.y, gridControl1[cell.x, cell.y].BackColor, (Bitmap)gridControl1[cell.x, cell.y].BackgroundImage));
+                Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " " + gridControl1[cell.x, cell.y].BackColor);
+
+                Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " " + cell.color);
+
+                //Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " "+cell.symbol.ToString());
+                gridControl1[cell.x, cell.y].BackgroundImage = cell.symbol; // something wrong with this type!
+                gridControl1[cell.x, cell.y].BackColor = (Color)cell.color;
+            }
+            tmp_latest = old;
+
+        }
 
         private void initiate_dmc_colorpicker()
         {
@@ -166,7 +278,9 @@ namespace PatternsMaker
             {
                 var item = listView1.SelectedItems[0]; // item to set
                 Bitmap img = (Bitmap)item.ImageList.Images[item.ImageIndex];
+
                 img = new Bitmap(img, cell_size);
+                pictureBox2.Image = img;
                 img.MakeTransparent();
 
                 if (FillCheckBox.Checked)
@@ -179,7 +293,7 @@ namespace PatternsMaker
                     fill_points.Add(current);
                     int i = 0;
 
-                    
+
                     while (!all_found)
                     {
                         if (i >= fill_points.Count || i > fill_tresh)
@@ -357,7 +471,7 @@ namespace PatternsMaker
 
         private void gridControl1_CellClick(object sender, Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs e)
         {
-
+            label13.Text = "x = " +e.ColIndex +", y = " + e.RowIndex;
         }
 
         private void colorUIControl1_Click(object sender, EventArgs e)
@@ -379,6 +493,8 @@ namespace PatternsMaker
             {
                 var item = listView3.SelectedItems[0];
                 Color color = item.BackColor;
+                pictureBox3.BackColor = color;
+
 
                 if (FillCheckBox.Checked)
                 {
@@ -906,6 +1022,29 @@ namespace PatternsMaker
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button6_Click_1(object sender, EventArgs e)
+        {
+            add_border_all();
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            add_border(get_selected_cells());
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            int i = int.Parse(integerTextBox2.Text);
+            cell_size = new Size(i, i);
+            gridControl1.SetColWidth(0,gridControl1.ColCount,i);
+            gridControl1.SetRowHeight(0, gridControl1.RowCount, i);
+        }
+
+        private void integerTextBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
