@@ -61,6 +61,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorPicker\OwnColorDialog.cs" />
+    <Compile Include="ColorPicker\DmcListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ColorPicker\ColorBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +103,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FloatViewTab\" />
+    <Folder Include="GeneratorTab\" />
+    <Folder Include="GridViewTab\" />
     <Folder Include="Images\" />
     <Folder Include="Symbols\Crochet\" />
     <Folder Include="Symbols\Knitting\" />

@@ -8,12 +8,18 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+// TODO LIST
+// Fix generator visual functionsst excel
+// own colorpicker
+// Knitting symbols and combobox
+// add symbol sophie was talking about
+// dragable tab
+// dragable tab save
+// dragable tab ctrl c ctrl v ctrl z
+// read symbols from folder instead
 
-// TODO Ctrl +v +c +z
-// Knitting
-// pattern to excel
-// test excel
-// dragable
+
+// low prio
 // fix nicer gui placeing and size
 // fix nicer gui colors
 
@@ -40,11 +46,14 @@ namespace PatternsMaker
         char[] delitem = { ';' }; char[] delcol = { 'C' };
         char[] delrow = { 'R' };
         char[] delsep = { ':' };
+        List<Cell> to_cells = new List<Cell>();
+
         Bitmap loaded_image;
         int pixel_size = 100;
         int x = 50;
         int y = 50;
-        int nr_colors = 2;
+        int nr_colors_in = 2;
+        int nr_colors_out = 2;
         int fill_tresh = 10000;
 
 
@@ -71,14 +80,31 @@ namespace PatternsMaker
 
             this.gridControl1.CommandStack.Enabled = true; // for ctrl-z function
 
-            
+            init_flowlayouts();
+        }
+
+        private void init_flowlayouts()
+        {
+
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel2.AutoScroll = true;
+
+            foreach (int i in Enumerable.Range(0, nr_colors_in))
+            {
+                flowLayoutPanel1.Controls.Add(new ColorBox());
+
+            }
+            foreach (int i in Enumerable.Range(0, nr_colors_out))
+            {
+                flowLayoutPanel2.Controls.Add(new ColorBox());
+            }
         }
 
         private void add_border(List<Point> cells)
         {
-            foreach ( Point p in cells)
+            foreach (Point p in cells)
             {
-                gridControl1[p.Y,p.X].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.Black, GridBorderWeight.Medium);
+                gridControl1[p.Y, p.X].Borders.All = new GridBorder(GridBorderStyle.Solid, Color.Black, GridBorderWeight.Medium);
             }
         }
 
@@ -144,25 +170,11 @@ namespace PatternsMaker
                 return;
             }
 
-            // Preform changes to gridControl and remember last change
-            List<Cell> old = new List<Cell>();
-
-            List<Point> marked = get_selected_cells();
-
-
-
             foreach (Cell cell in changes)
             {
-                old.Add(new Cell(cell.x, cell.y, gridControl1[cell.x, cell.y].BackColor, (Bitmap)gridControl1[cell.x, cell.y].BackgroundImage));
-                Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " " + gridControl1[cell.x, cell.y].BackColor);
-
-                Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " " + cell.color);
-
-                //Console.WriteLine(cell.x.ToString() + " " + cell.y.ToString() + " "+cell.symbol.ToString());
                 gridControl1[cell.x, cell.y].BackgroundImage = cell.symbol; // something wrong with this type!
                 gridControl1[cell.x, cell.y].BackColor = (Color)cell.color;
             }
-            tmp_latest = old;
 
         }
 
@@ -471,7 +483,7 @@ namespace PatternsMaker
 
         private void gridControl1_CellClick(object sender, Syncfusion.Windows.Forms.Grid.GridCellClickEventArgs e)
         {
-            label13.Text = "x = " +e.ColIndex +", y = " + e.RowIndex;
+            label13.Text = "x = " + e.ColIndex + ", y = " + e.RowIndex;
         }
 
         private void colorUIControl1_Click(object sender, EventArgs e)
@@ -657,6 +669,7 @@ namespace PatternsMaker
 
                     loaded_image = new Bitmap(image);
 
+                    label11.Text = loaded_image.Width.ToString() + "x" + loaded_image.Height.ToString();
                     pictureBox1.Image = loaded_image;
                 }
                 // loaded_image
@@ -679,10 +692,9 @@ namespace PatternsMaker
 
             if (loaded_image != null)
             {
-
+                progressBar1.Value = 5;
                 // pixelize 1
                 Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
-
                 string key = listView2.Items.Count.ToString();
 
                 imageList2.ImageSize = new Size(200, 200);
@@ -694,36 +706,58 @@ namespace PatternsMaker
                 // and tell the item which image to use
                 listViewItem.ImageKey = key;
 
+                progressBar1.Value = 25;
                 // palett color 1 
                 Bitmap image2 = loaded_image;
 
                 key = listView2.Items.Count.ToString();
 
+                // get collected colors:
+                List<Color> in_color = new List<Color>();
+                foreach(Control c in flowLayoutPanel1.Controls)
+                {
+                    ColorBox color_box = (ColorBox)c;
+                    in_color.Add(color_box.BackColor);
+                }
+
+                List<Color> out_color = new List<Color>();
+                foreach (Control c in flowLayoutPanel2.Controls)
+                {
+                    ColorBox color_box = (ColorBox)c;
+                    out_color.Add(color_box.BackColor);
+                }
+
                 // todo fix with colors here!
-                Color[] colors = new Color[] { Color.Black, Color.White };
-                Bitmap newImage = ConvertToColors(image2, colors);
-                ColorPalette pal = newImage.Palette;
-                pal.Entries[0] = Color.Blue;
-                pal.Entries[1] = Color.Yellow;
-                newImage.Palette = pal;
+                Color[] colors = in_color.ToArray();
+                Bitmap newImage1 = ConvertToColors(image2, colors);
+                ColorPalette pal = newImage1.Palette;
+                for(int i = 0; i < out_color.Count; i++)
+                {
+                    pal.Entries[i] = out_color[i];
+                }
+                newImage1.Palette = pal;
 
                 imageList2.ImageSize = new Size(200, 200);
-                imageList2.Images.Add(key, newImage);
+                imageList2.Images.Add(key, newImage1);
 
                 // add an item
                 listViewItem = listView2.Items.Add(" ");
                 // and tell the item which image to use
                 listViewItem.ImageKey = key;
 
+                progressBar1.Value = 50;
                 // combine first two 1
                 Bitmap image3 = image1;
                 key = listView2.Items.Count.ToString();
 
-                colors = new Color[] { Color.Black, Color.White };
-                newImage = ConvertToColors(image3, colors);
+                colors = in_color.ToArray();
+
+                Bitmap newImage = ConvertToColors(image3, colors);
                 pal = newImage.Palette;
-                pal.Entries[0] = Color.Blue;
-                pal.Entries[1] = Color.Yellow;
+                for (int i = 0; i < out_color.Count; i++)
+                {
+                    pal.Entries[i] = out_color[i];
+                }
                 newImage.Palette = pal;
 
                 imageList2.ImageSize = new Size(200, 200);
@@ -733,6 +767,26 @@ namespace PatternsMaker
                 listViewItem = listView2.Items.Add(" ");
                 // and tell the item which image to use
                 listViewItem.ImageKey = key;
+
+
+                progressBar1.Value = 75;
+
+                // combine first two 1
+                Bitmap image4 = Pixelate((Bitmap)newImage1.Clone(), new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
+
+                key = listView2.Items.Count.ToString();
+
+                imageList2.ImageSize = new Size(200, 200);
+
+                imageList2.Images.Add(key, image4);
+
+                // add an item
+                listViewItem = listView2.Items.Add(" ");
+                // and tell the item which image to use
+                listViewItem.ImageKey = key;
+
+
+                progressBar1.Value = 100;
             }
 
         }
@@ -864,31 +918,29 @@ namespace PatternsMaker
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            try
-            {
-                nr_colors = int.Parse(textBox1.Text);
-            }
-            catch (Exception)
-            {
-                // will pass this for now
-            }
+
         }
-        private static Bitmap Pixelate(Bitmap image, Rectangle rectangle, Int32 pixelateSize)
+        private Bitmap Pixelate(Bitmap image, Rectangle rectangle, Int32 pixelateSize)
         {
+            to_cells = new List<Cell>();
             Bitmap pixelated = new System.Drawing.Bitmap(image.Width, image.Height);
+
+            int j = 1;
 
             // make an exact copy of the bitmap provided
             using (Graphics graphics = System.Drawing.Graphics.FromImage(pixelated))
                 graphics.DrawImage(image, new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
                     new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
-
             // look at every pixel in the rectangle while making sure we're within the image bounds
             for (Int32 xx = rectangle.X; xx < rectangle.X + rectangle.Width && xx < image.Width; xx += pixelateSize)
             {
+
+                int i = 1;
                 for (Int32 yy = rectangle.Y; yy < rectangle.Y + rectangle.Height && yy < image.Height; yy += pixelateSize)
                 {
                     Int32 offsetX = pixelateSize / 2;
                     Int32 offsetY = pixelateSize / 2;
+
 
                     // make sure that the offset is within the boundry of the image
                     while (xx + offsetX >= image.Width) offsetX--;
@@ -897,11 +949,17 @@ namespace PatternsMaker
                     // get the pixel color in the center of the soon to be pixelated area
                     Color pixel = pixelated.GetPixel(xx + offsetX, yy + offsetY);
 
+                    // Console.WriteLine(i.ToString() + " " + j.ToString());
+                    to_cells.Add(new Cell(i, j, pixel, null));
+
+                    i++;
+
                     // for each pixel in the pixelate size, set it to the center color
                     for (Int32 x = xx; x < xx + pixelateSize && x < image.Width; x++)
                         for (Int32 y = yy; y < yy + pixelateSize && y < image.Height; y++)
                             pixelated.SetPixel(x, y, pixel);
                 }
+                j++;
             }
 
             return pixelated;
@@ -1040,7 +1098,7 @@ namespace PatternsMaker
         {
             int i = int.Parse(integerTextBox2.Text);
             cell_size = new Size(i, i);
-            gridControl1.SetColWidth(0,gridControl1.ColCount,i);
+            gridControl1.SetColWidth(0, gridControl1.ColCount, i);
             gridControl1.SetRowHeight(0, gridControl1.RowCount, i);
         }
 
@@ -1048,124 +1106,53 @@ namespace PatternsMaker
         {
 
         }
-    }
 
-}
-class PixelEditor : Panel
-{
-    public Color DrawColor { get; set; }
-    public Color GridColor { get; set; }
-    int pixelSize = 8;
-    public int PixelSize
-    {
-        get { return pixelSize; }
-        set
+        private void button8_Click(object sender, EventArgs e)
         {
-            pixelSize = value;
-            Invalidate();
+            // set created image to our cells
+            do_changes(to_cells);
+
+            // jump to other tab
+            tabControl1.SelectedIndex = 0;
+
+
         }
-    }
 
-
-    public Bitmap TgtBitmap { get; set; }
-    public Point TgtMousePos { get; set; }
-
-    Point lastPoint = Point.Empty;
-
-    PictureBox aPBox = null;
-    public PictureBox APBox
-    {
-        get { return aPBox; }
-        set
+        private void integerTextBox3_TextChanged(object sender, EventArgs e)
         {
-            if (value == null) return;
-            aPBox = value;
-            aPBox.MouseClick -= APBox_MouseClick;
-            aPBox.MouseClick += APBox_MouseClick;
-        }
-    }
+            nr_colors_in = int.Parse(integerTextBox3.Text);
 
-    private void APBox_MouseClick(object sender, MouseEventArgs e)
-    {
-        TgtMousePos = e.Location;
-        Invalidate();
-    }
+            // set size of listbox1 and update
+            flowLayoutPanel1.Controls.Clear();
 
-
-    public PixelEditor()
-    {
-        DoubleBuffered = true;
-        BackColor = Color.White;
-        GridColor = Color.DimGray;
-        DrawColor = Color.Red;
-        PixelSize = 10;
-        TgtMousePos = Point.Empty;
-
-        if (APBox != null && APBox.Image != null)
-            TgtBitmap = (Bitmap)APBox.Image;
-
-        MouseClick += PixelEditor_MouseClick;
-        MouseMove += PixelEditor_MouseMove;
-        Paint += PixelEditor_Paint;
-    }
-
-    private void PixelEditor_Paint(object sender, PaintEventArgs e)
-    {
-        if (DesignMode) return;
-
-        Graphics g = e.Graphics;
-
-        int cols = ClientSize.Width / PixelSize;
-        int rows = ClientSize.Height / PixelSize;
-
-        if (TgtMousePos.X < 0 || TgtMousePos.Y < 0) return;
-
-        for (int x = 0; x < cols; x++)
-            for (int y = 0; y < rows; y++)
+            foreach (int i in Enumerable.Range(0, nr_colors_in))
             {
-                int sx = TgtMousePos.X + x;
-                int sy = TgtMousePos.Y + y;
-
-                if (sx > TgtBitmap.Width || sy > TgtBitmap.Height) continue;
-
-                Color col = TgtBitmap.GetPixel(sx, sy);
-
-                using (SolidBrush b = new SolidBrush(col))
-                using (Pen p = new Pen(GridColor))
-                {
-                    Rectangle rect = new Rectangle(x * PixelSize, y * PixelSize,
-                                                       PixelSize, PixelSize);
-                    g.FillRectangle(b, rect);
-                    g.DrawRectangle(p, rect);
-                }
+                flowLayoutPanel1.Controls.Add(new ColorBox());
             }
+        }
+
+        private void integerTextBox4_TextChanged(object sender, EventArgs e)
+        {
+            nr_colors_out = int.Parse(integerTextBox4.Text);
+
+            // set size of listbox2 and update
+            flowLayoutPanel2.Controls.Clear();
+
+            foreach (int i in Enumerable.Range(0, nr_colors_out))
+            {
+                flowLayoutPanel2.Controls.Add(new ColorBox());
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-
-    private void PixelEditor_MouseMove(object sender, MouseEventArgs e)
-    {
-        if (e.Button != MouseButtons.Left) return;
-
-        int x = TgtMousePos.X + e.X / PixelSize;
-        int y = TgtMousePos.Y + e.Y / PixelSize;
-
-        if (new Point(x, y) == lastPoint) return;
-
-        Bitmap bmp = (Bitmap)APBox.Image;
-        bmp.SetPixel(x, y, DrawColor);
-        APBox.Image = bmp;
-        Invalidate();
-        lastPoint = new Point(x, y);
-    }
-
-    private void PixelEditor_MouseClick(object sender, MouseEventArgs e)
-    {
-        int x = TgtMousePos.X + e.X / PixelSize;
-        int y = TgtMousePos.Y + e.Y / PixelSize;
-        Bitmap bmp = (Bitmap)APBox.Image;
-        bmp.SetPixel(x, y, DrawColor);
-        APBox.Image = bmp;
-        Invalidate();
-    }
-
 
 }
