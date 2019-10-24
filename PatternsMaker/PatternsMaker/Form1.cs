@@ -10,7 +10,6 @@ using System.Windows.Forms;
 
 // TODO LIST
 // Fix generator visual functionsst excel
-// own colorpicker
 // Knitting symbols and combobox
 // add symbol sophie was talking about
 // dragable tab
@@ -41,12 +40,16 @@ namespace PatternsMaker
         }
     }
 
+
+
     public partial class Form1 : Form
     {
         char[] delitem = { ';' }; char[] delcol = { 'C' };
         char[] delrow = { 'R' };
         char[] delsep = { ':' };
         List<Cell> to_cells = new List<Cell>();
+        List<Color> all_dmc_colors = new List<Color>();
+        List<string> all_dmc_names = new List<string>();
 
         Bitmap loaded_image;
         int pixel_size = 100;
@@ -56,6 +59,8 @@ namespace PatternsMaker
         int nr_colors_out = 2;
         int fill_tresh = 10000;
 
+        List<ListViewItem> rec_in = new List<ListViewItem>();
+        List<ListViewItem> rec_out = new List<ListViewItem>();
 
         List<Cell> tmp_saved = new List<Cell>();
         List<Cell> tmp_latest = new List<Cell>();
@@ -194,6 +199,8 @@ namespace PatternsMaker
                 {
                     string[] splitted = line.Split(del);
                     listView3.Items.Add(line);
+                    all_dmc_names.Add(line);
+                    all_dmc_colors.Add(ColorTranslator.FromHtml("0x" + splitted[splitted.Length - 2]));
                     listView3.Items[listView3.Items.Count - 1].BackColor = ColorTranslator.FromHtml("0x" + splitted[splitted.Length - 2]);
                 }
                 counter++;
@@ -671,12 +678,184 @@ namespace PatternsMaker
 
                     label11.Text = loaded_image.Width.ToString() + "x" + loaded_image.Height.ToString();
                     pictureBox1.Image = loaded_image;
+
                 }
+
                 // loaded_image
+
+               // get_recommended_colors();
             }
 
         }
 
+        private void get_recommended_colors()
+        {
+            List<Color> pixelColors = new List<Color>();
+            List<int> occurence = new List<int>();
+
+            Console.WriteLine("Will now read "+ loaded_image.Width +"x"+ loaded_image.Height + " pixels!");
+
+            int count = 0;
+            for (int i = 0; i < loaded_image.Width; i++)
+            {
+                for (int j = 0; j < loaded_image.Height; j++)
+                {
+                    Console.WriteLine("Handle pixel " +count + " out of " + loaded_image.Width * loaded_image.Height);
+                    Color currentPixel = loaded_image.GetPixel(i, j);
+                    if (pixelColors.Contains(currentPixel))
+                    {
+                        occurence[pixelColors.IndexOf(currentPixel)]++;
+                    }
+                    else
+                    {
+                        occurence.Add(1);
+                        pixelColors.Add(currentPixel);
+                    }
+                    /* Might help to sleep here but it will slow down the implementation
+                    System.Threading.Thread.Sleep(1);
+                    */
+                    count++;
+                }
+            }
+      
+            // insertsort implementation
+            List<int> sortedOccurence = new List<int>();
+            List<Color> sortedPixelColors = new List<Color>();
+
+            for (int i = 0; i < occurence.Count; i++)
+            {
+                if (sortedOccurence.Count == 0)
+                {
+                    sortedOccurence.Add(occurence[i]);
+                    sortedPixelColors.Add(pixelColors[i]);
+                }
+                else
+                {
+                    for (int index = 0; index <= sortedOccurence.Count; index++)
+                    {
+                        if (index == sortedOccurence.Count)
+                        {
+                            sortedOccurence.Insert(index, occurence[i]);
+                            sortedPixelColors.Insert(index, pixelColors[i]);
+                            break;
+                        }
+                        else
+                        {
+                            if (occurence[i] >= sortedOccurence[index])
+                            {
+                                sortedOccurence.Insert(index, occurence[i]);
+                                sortedPixelColors.Insert(index, pixelColors[i]);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            List<int> exceptionList_in = new List<int>();
+            rec_in.Clear();
+            Console.WriteLine("These IN colors are recommended:");
+            foreach (int i in Enumerable.Range(0, nr_colors_in))
+            {
+                Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
+
+                // is already dmc
+                if (all_dmc_colors.Contains(sortedPixelColors[i]))
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])];
+                    item.BackColor = all_dmc_colors[all_dmc_colors.IndexOf(sortedPixelColors[i])];
+                    rec_in.Add(item);
+                    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
+                }
+                else
+                {
+                    Console.WriteLine("This is no dmc color, we will approx it to: ");
+                    int index = get_approximated_dmc_color_index(sortedPixelColors[i], exceptionList_in);
+                    Console.WriteLine(all_dmc_names[index]);
+                    exceptionList_in.Add(index);
+                    ListViewItem item = new ListViewItem();
+                    item.Text = all_dmc_names[index];
+                    item.BackColor = all_dmc_colors[index];
+                    rec_in.Add(item);
+                }
+            }
+
+            List<int> exceptionList_out = new List<int>();
+            rec_out.Clear();
+            Console.WriteLine("These OUT colors are recommended:");
+            foreach (int i in Enumerable.Range(0, nr_colors_out))
+            {
+                Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
+                // is already dmc
+                if (all_dmc_colors.Contains(sortedPixelColors[i]))
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])];
+                    item.BackColor = all_dmc_colors[all_dmc_colors.IndexOf(sortedPixelColors[i])];
+                    rec_out.Add(item);
+                    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
+                }
+                else
+                {
+                    Console.WriteLine("This is no dmc color, we will approx it to: ");
+                    int index = get_approximated_dmc_color_index(sortedPixelColors[i], exceptionList_out);
+                    Console.WriteLine(all_dmc_names[index]);
+                    exceptionList_out.Add(index);
+                    ListViewItem item = new ListViewItem();
+                    item.Text = all_dmc_names[index];
+                    item.BackColor = all_dmc_colors[index];
+                    rec_out.Add(item);
+                }
+            }
+
+            // add to listviews
+            listView6.Items.Clear();
+            foreach(ListViewItem item in rec_in)
+            {
+                listView6.Items.Add(item);
+            }
+            listView7.Items.Clear();
+            foreach (ListViewItem item in rec_out)
+            {
+                listView7.Items.Add(item);
+            }
+        }
+
+        private int get_approximated_dmc_color_index(Color c, List<int> exceptionList)
+        {
+            /*This function calculate the closest dmc color to input color!*/
+            int? best_index = null;
+            int? best_approx = null;
+
+            for (int i = 0; i < all_dmc_colors.Count; i++)
+            {
+                if (exceptionList.Contains(i))
+                {
+                    continue;
+                }
+                if (best_index == null)
+                {
+                    best_index = i;
+                    best_approx = Math.Abs(all_dmc_colors[i].R - c.R) + Math.Abs(all_dmc_colors[i].G - c.G) + Math.Abs(all_dmc_colors[i].B - c.B) + Math.Abs(all_dmc_colors[i].A - c.A);
+                }
+                int curr_approx = Math.Abs(all_dmc_colors[i].R - c.R) + Math.Abs(all_dmc_colors[i].G - c.G) + Math.Abs(all_dmc_colors[i].B - c.B) + Math.Abs(all_dmc_colors[i].A - c.A);
+                if (curr_approx < best_approx )
+                {
+                    best_approx = curr_approx;
+                    best_index = i;
+                }
+            }
+            return best_index ?? default(int);
+        }
+
+        private void show_recommended_colors(List<Color> clist, List<int> ilist)
+        {
+            for (int i = 0; i < ilist.Count; i++)
+            {
+                Console.WriteLine(clist[i].ToString() + " " + ilist[i].ToString());
+            }
+        }
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -714,7 +893,7 @@ namespace PatternsMaker
 
                 // get collected colors:
                 List<Color> in_color = new List<Color>();
-                foreach(Control c in flowLayoutPanel1.Controls)
+                foreach (Control c in flowLayoutPanel1.Controls)
                 {
                     ColorBox color_box = (ColorBox)c;
                     in_color.Add(color_box.BackColor);
@@ -731,7 +910,7 @@ namespace PatternsMaker
                 Color[] colors = in_color.ToArray();
                 Bitmap newImage1 = ConvertToColors(image2, colors);
                 ColorPalette pal = newImage1.Palette;
-                for(int i = 0; i < out_color.Count; i++)
+                for (int i = 0; i < out_color.Count; i++)
                 {
                     pal.Entries[i] = out_color[i];
                 }
@@ -1129,6 +1308,7 @@ namespace PatternsMaker
             {
                 flowLayoutPanel1.Controls.Add(new ColorBox());
             }
+            get_recommended_colors();
         }
 
         private void integerTextBox4_TextChanged(object sender, EventArgs e)
@@ -1142,6 +1322,7 @@ namespace PatternsMaker
             {
                 flowLayoutPanel2.Controls.Add(new ColorBox());
             }
+            get_recommended_colors();
         }
 
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -1150,6 +1331,42 @@ namespace PatternsMaker
         }
 
         private void listView6_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+
+            flowLayoutPanel1.Controls.Clear();
+            // in recommended color use 
+            foreach (ListViewItem item in rec_in)
+            {
+                ColorBox tmpBox = new ColorBox();
+                tmpBox.BackColor = item.BackColor;
+                flowLayoutPanel1.Controls.Add(tmpBox);
+            }
+        }   
+
+        private void button14_Click(object sender, EventArgs e)
+        {
+
+            flowLayoutPanel2.Controls.Clear();
+            // out recommended color use
+            foreach (ListViewItem item in rec_out)
+            {
+                ColorBox tmpBox = new ColorBox();
+                tmpBox.BackColor = item.BackColor;
+                flowLayoutPanel2.Controls.Add(tmpBox);
+            }
+        }
+
+        private void groupBox15_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
