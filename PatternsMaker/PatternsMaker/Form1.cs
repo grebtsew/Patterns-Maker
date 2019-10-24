@@ -1,4 +1,5 @@
-﻿using Syncfusion.Windows.Forms.Grid;
+﻿using PatternsMaker.GeneratorTab;
+using Syncfusion.Windows.Forms.Grid;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,18 +10,18 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 // TODO LIST
-// Fix generator visual functionsst excel
-// Knitting symbols and combobox
+
 // add symbol sophie was talking about
 // dragable tab
 // dragable tab save
 // dragable tab ctrl c ctrl v ctrl z
-// read symbols from folder instead
 
 
 // low prio
 // fix nicer gui placeing and size
 // fix nicer gui colors
+// fix README
+
 
 namespace PatternsMaker
 {
@@ -51,14 +52,16 @@ namespace PatternsMaker
         List<Color> all_dmc_colors = new List<Color>();
         List<string> all_dmc_names = new List<string>();
 
+        int listview_image_size = 200;
         Bitmap loaded_image;
-        int pixel_size = 100;
         int x = 50;
         int y = 50;
         int nr_colors_in = 2;
         int nr_colors_out = 2;
         int fill_tresh = 10000;
 
+        List<int> sortedOccurence = new List<int>();
+        List<Color> sortedPixelColors = new List<Color>();
         List<ListViewItem> rec_in = new List<ListViewItem>();
         List<ListViewItem> rec_out = new List<ListViewItem>();
 
@@ -67,6 +70,7 @@ namespace PatternsMaker
 
         Size cell_size = new Size(25, 25);
         string path_to_dmc = @"../../Data/dmc.txt";
+        string path_to_symbol = @"../../Symbols/";
 
         private ToolStripProgressBar toolStripProgressBar; // todo add this progressbar when necessary
 
@@ -86,6 +90,17 @@ namespace PatternsMaker
             this.gridControl1.CommandStack.Enabled = true; // for ctrl-z function
 
             init_flowlayouts();
+            init_symbollistviews();
+        }
+
+        private void init_symbollistviews()
+        {
+            // TODO
+
+            // read symbols from folders and add to all listviews
+            
+            // for each folder create group
+            
         }
 
         private void init_flowlayouts()
@@ -683,25 +698,36 @@ namespace PatternsMaker
 
                 // loaded_image
 
-               // get_recommended_colors();
+                get_recommended_colors();
             }
 
         }
 
         private void get_recommended_colors()
         {
+            int pixel_tresh = 10000;
+            int img_resize = 100;
             List<Color> pixelColors = new List<Color>();
             List<int> occurence = new List<int>();
 
-            Console.WriteLine("Will now read "+ loaded_image.Width +"x"+ loaded_image.Height + " pixels!");
-
-            int count = 0;
-            for (int i = 0; i < loaded_image.Width; i++)
+            //Console.WriteLine("Will now read "+ loaded_image.Width +"x"+ loaded_image.Height + " pixels!");
+            Bitmap tmp = loaded_image;
+            if (loaded_image.Width*loaded_image.Height > pixel_tresh)
             {
-                for (int j = 0; j < loaded_image.Height; j++)
+               tmp = new Bitmap( loaded_image, new Size(img_resize, img_resize));
+            }
+            LockBitmap lockBitmap = new LockBitmap(tmp);
+            lockBitmap.LockBits();
+
+            float count = 0;
+            for (int i = 0; i < lockBitmap.Width; i++)
+            {
+                for (int j = 0; j < lockBitmap.Height; j++)
                 {
-                    Console.WriteLine("Handle pixel " +count + " out of " + loaded_image.Width * loaded_image.Height);
-                    Color currentPixel = loaded_image.GetPixel(i, j);
+                    // Console.WriteLine("Handle pixel " +count + " out of " + lockBitmap.Width * lockBitmap.Height);
+                    progressBar1.Value =(int) ((count / (lockBitmap.Width * lockBitmap.Height)) * 100);
+                   // Console.WriteLine((float)(count / (lockBitmap.Width * lockBitmap.Height)));
+                    Color currentPixel = lockBitmap.GetPixel(i, j);
                     if (pixelColors.Contains(currentPixel))
                     {
                         occurence[pixelColors.IndexOf(currentPixel)]++;
@@ -717,13 +743,16 @@ namespace PatternsMaker
                     count++;
                 }
             }
-      
+            lockBitmap.UnlockBits();
             // insertsort implementation
-            List<int> sortedOccurence = new List<int>();
-            List<Color> sortedPixelColors = new List<Color>();
+            sortedOccurence = new List<int>();
+            sortedPixelColors = new List<Color>();
 
+            progressBar1.Value = 100;
             for (int i = 0; i < occurence.Count; i++)
             {
+
+                progressBar1.Value = (int) (((float)i /(occurence.Count))*100);
                 if (sortedOccurence.Count == 0)
                 {
                     sortedOccurence.Add(occurence[i]);
@@ -751,13 +780,19 @@ namespace PatternsMaker
                     }
                 }
             }
+            approx_dmc_and_show();
 
+            progressBar1.Value = 100;
+        }
+
+        private void approx_dmc_and_show()
+        {
             List<int> exceptionList_in = new List<int>();
             rec_in.Clear();
-            Console.WriteLine("These IN colors are recommended:");
+            //Console.WriteLine("These IN colors are recommended:");
             foreach (int i in Enumerable.Range(0, nr_colors_in))
             {
-                Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
+                //  Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
 
                 // is already dmc
                 if (all_dmc_colors.Contains(sortedPixelColors[i]))
@@ -766,13 +801,13 @@ namespace PatternsMaker
                     item.Text = all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])];
                     item.BackColor = all_dmc_colors[all_dmc_colors.IndexOf(sortedPixelColors[i])];
                     rec_in.Add(item);
-                    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
+                    //    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
                 }
                 else
                 {
-                    Console.WriteLine("This is no dmc color, we will approx it to: ");
+                    //  Console.WriteLine("This is no dmc color, we will approx it to: ");
                     int index = get_approximated_dmc_color_index(sortedPixelColors[i], exceptionList_in);
-                    Console.WriteLine(all_dmc_names[index]);
+                    //Console.WriteLine(all_dmc_names[index]);
                     exceptionList_in.Add(index);
                     ListViewItem item = new ListViewItem();
                     item.Text = all_dmc_names[index];
@@ -783,10 +818,10 @@ namespace PatternsMaker
 
             List<int> exceptionList_out = new List<int>();
             rec_out.Clear();
-            Console.WriteLine("These OUT colors are recommended:");
+            // Console.WriteLine("These OUT colors are recommended:");
             foreach (int i in Enumerable.Range(0, nr_colors_out))
             {
-                Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
+                //   Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
                 // is already dmc
                 if (all_dmc_colors.Contains(sortedPixelColors[i]))
                 {
@@ -794,13 +829,13 @@ namespace PatternsMaker
                     item.Text = all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])];
                     item.BackColor = all_dmc_colors[all_dmc_colors.IndexOf(sortedPixelColors[i])];
                     rec_out.Add(item);
-                    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
+                    //    Console.WriteLine("This is dmc color : " + all_dmc_names[all_dmc_colors.IndexOf(sortedPixelColors[i])]);
                 }
                 else
                 {
-                    Console.WriteLine("This is no dmc color, we will approx it to: ");
+                    //     Console.WriteLine("This is no dmc color, we will approx it to: ");
                     int index = get_approximated_dmc_color_index(sortedPixelColors[i], exceptionList_out);
-                    Console.WriteLine(all_dmc_names[index]);
+                    //     Console.WriteLine(all_dmc_names[index]);
                     exceptionList_out.Add(index);
                     ListViewItem item = new ListViewItem();
                     item.Text = all_dmc_names[index];
@@ -811,7 +846,7 @@ namespace PatternsMaker
 
             // add to listviews
             listView6.Items.Clear();
-            foreach(ListViewItem item in rec_in)
+            foreach (ListViewItem item in rec_in)
             {
                 listView6.Items.Add(item);
             }
@@ -866,17 +901,21 @@ namespace PatternsMaker
             // TODO add x and y
 
             // generate several pixelized images and show results
+            if (checkBox1.Checked)
+            {
+
             listView2.Items.Clear();
             imageList2.Images.Clear();
 
+            }
             if (loaded_image != null)
             {
                 progressBar1.Value = 5;
                 // pixelize 1
-                Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
+                Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x,y));
                 string key = listView2.Items.Count.ToString();
 
-                imageList2.ImageSize = new Size(200, 200);
+                imageList2.ImageSize = new Size(listview_image_size, listview_image_size);
 
                 imageList2.Images.Add(key, image1);
 
@@ -916,7 +955,7 @@ namespace PatternsMaker
                 }
                 newImage1.Palette = pal;
 
-                imageList2.ImageSize = new Size(200, 200);
+                imageList2.ImageSize = new Size(listview_image_size, listview_image_size);
                 imageList2.Images.Add(key, newImage1);
 
                 // add an item
@@ -939,7 +978,7 @@ namespace PatternsMaker
                 }
                 newImage.Palette = pal;
 
-                imageList2.ImageSize = new Size(200, 200);
+                imageList2.ImageSize = new Size(listview_image_size, listview_image_size);
                 imageList2.Images.Add(key, newImage);
 
                 // add an item
@@ -951,11 +990,11 @@ namespace PatternsMaker
                 progressBar1.Value = 75;
 
                 // combine first two 1
-                Bitmap image4 = Pixelate((Bitmap)newImage1.Clone(), new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), pixel_size);
+                Bitmap image4 = Pixelate((Bitmap)newImage1.Clone(), new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x, y));
 
                 key = listView2.Items.Count.ToString();
 
-                imageList2.ImageSize = new Size(200, 200);
+                imageList2.ImageSize = new Size(listview_image_size, listview_image_size);
 
                 imageList2.Images.Add(key, image4);
 
@@ -1099,7 +1138,7 @@ namespace PatternsMaker
         {
 
         }
-        private Bitmap Pixelate(Bitmap image, Rectangle rectangle, Int32 pixelateSize)
+        private Bitmap Pixelate(Bitmap image, Rectangle rectangle, Point pixelateSize)
         {
             to_cells = new List<Cell>();
             Bitmap pixelated = new System.Drawing.Bitmap(image.Width, image.Height);
@@ -1111,14 +1150,14 @@ namespace PatternsMaker
                 graphics.DrawImage(image, new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
                     new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
             // look at every pixel in the rectangle while making sure we're within the image bounds
-            for (Int32 xx = rectangle.X; xx < rectangle.X + rectangle.Width && xx < image.Width; xx += pixelateSize)
+            for (Int32 xx = rectangle.X; xx < rectangle.X + rectangle.Width && xx < image.Width; xx += pixelateSize.X)
             {
 
                 int i = 1;
-                for (Int32 yy = rectangle.Y; yy < rectangle.Y + rectangle.Height && yy < image.Height; yy += pixelateSize)
+                for (Int32 yy = rectangle.Y; yy < rectangle.Y + rectangle.Height && yy < image.Height; yy += pixelateSize.Y)
                 {
-                    Int32 offsetX = pixelateSize / 2;
-                    Int32 offsetY = pixelateSize / 2;
+                    Int32 offsetX = pixelateSize.X / 2;
+                    Int32 offsetY = pixelateSize.Y / 2;
 
 
                     // make sure that the offset is within the boundry of the image
@@ -1134,8 +1173,8 @@ namespace PatternsMaker
                     i++;
 
                     // for each pixel in the pixelate size, set it to the center color
-                    for (Int32 x = xx; x < xx + pixelateSize && x < image.Width; x++)
-                        for (Int32 y = yy; y < yy + pixelateSize && y < image.Height; y++)
+                    for (Int32 x = xx; x < xx + pixelateSize.X && x < image.Width; x++)
+                        for (Int32 y = yy; y < yy + pixelateSize.Y && y < image.Height; y++)
                             pixelated.SetPixel(x, y, pixel);
                 }
                 j++;
@@ -1154,38 +1193,13 @@ namespace PatternsMaker
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                x = int.Parse(textBox2.Text);
-            }
-            catch (Exception)
-            {
-                // will pass this for now
-            }
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-            try
-            {
-                //pixel size
-                pixel_size = int.Parse(textBox4.Text);
-            }
-            catch (Exception)
-            {
-                // will pass this for now
-            }
-        }
+     
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                y = int.Parse(textBox3.Text);
+                
             }
             catch (Exception)
             {
@@ -1288,6 +1302,9 @@ namespace PatternsMaker
 
         private void button8_Click(object sender, EventArgs e)
         {
+            // clear grid
+            gridControl1.ClearCells(gridControl1.Selections.Ranges, true);
+
             // set created image to our cells
             do_changes(to_cells);
 
@@ -1308,7 +1325,7 @@ namespace PatternsMaker
             {
                 flowLayoutPanel1.Controls.Add(new ColorBox());
             }
-            get_recommended_colors();
+            approx_dmc_and_show();
         }
 
         private void integerTextBox4_TextChanged(object sender, EventArgs e)
@@ -1322,7 +1339,7 @@ namespace PatternsMaker
             {
                 flowLayoutPanel2.Controls.Add(new ColorBox());
             }
-            get_recommended_colors();
+            approx_dmc_and_show();
         }
 
         private void listBox1_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -1369,6 +1386,26 @@ namespace PatternsMaker
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void integerTextBox5_TextChanged(object sender, EventArgs e)
+        {
+            listview_image_size = int.Parse(integerTextBox5.Text);
+        }
+
+        private void integerTextBox6_TextChanged(object sender, EventArgs e)
+        {
+            x = int.Parse(integerTextBox6.Text);
+        }
+
+        private void integerTextBox7_TextChanged(object sender, EventArgs e)
+        {
+            y = int.Parse(integerTextBox7.Text);
         }
     }
 
