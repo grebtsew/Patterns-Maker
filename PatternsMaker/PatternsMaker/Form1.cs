@@ -15,7 +15,11 @@ using System.Windows.Forms;
 // dragable tab
 // dragable tab save
 // dragable tab ctrl c ctrl v ctrl z
+// nevron??
 
+// MetroModernUI
+//Fancy form
+//ImageEditor
 
 // low prio
 // fix nicer gui placeing and size
@@ -70,7 +74,7 @@ namespace PatternsMaker
 
         Size cell_size = new Size(25, 25);
         string path_to_dmc = @"../../Data/dmc.txt";
-        string path_to_symbol = @"../../Symbols/";
+        string path_to_symbol = "../../Symbols/";
 
         private ToolStripProgressBar toolStripProgressBar; // todo add this progressbar when necessary
 
@@ -89,19 +93,51 @@ namespace PatternsMaker
 
             this.gridControl1.CommandStack.Enabled = true; // for ctrl-z function
 
+            // Set MergeCells direction for the GridControl.
+            this.gridControl1.TableStyle.MergeCell = GridMergeCellDirection.Both;
+            
+
+            // Set merge cells behavior for the Grid.
+            //  this.gridControl1.Model.Options.MergeCellsMode = GridMergeCellsMode.OnDemandCalculation
+            //     | GridMergeCellsMode.MergeColumnsInRow | GridMergeCellsMode.MergeRowsInColumn;
+            // this.gridControl1.Model.Options.MergeCellsLayout = GridMergeCellsLayout.Grid;
+
             init_flowlayouts();
             init_symbollistviews();
         }
 
         private void init_symbollistviews()
         {
-            // TODO
+            ImageList ilist = new ImageList();
+            foreach (string dirName in Directory.GetDirectories(path_to_symbol))
+            {
+               // Console.WriteLine(Path.GetFileName(dirName));
+                ListViewGroup group = new ListViewGroup(Path.GetFileName(dirName));
+                
+                listView1.Groups.Add(group);
 
-            // read symbols from folders and add to all listviews
+                  //  Console.WriteLine(dirName);
+                    foreach (string fileName in Directory.GetFiles(dirName ))
+                    {
+                
+                 //   Console.WriteLine(fileName);
+                    ilist.Images.Add(Image.FromFile(fileName));
+                    
+                    ListViewItem item = new ListViewItem();
+                    item.ImageIndex = ilist.Images.Count-1;
+                    item.Group = group;
+                    this.listView1.Items.Add(item);
+                    
+                }
+                
+            }
             
-            // for each folder create group
-            
+            this.listView1.View = View.SmallIcon;
+            ilist.ImageSize = new Size(50, 50);
+            listView1.ShowGroups = true;
+            this.listView1.SmallImageList = ilist;
         }
+
 
         private void init_flowlayouts()
         {
@@ -405,6 +441,7 @@ namespace PatternsMaker
 
                     foreach (Point p in fill_points)
                     {
+                        img = new Bitmap(img, gridControl1[p.X, p.Y].CellModel.GetCellSize(p.X, p.Y));
                         gridControl1[p.X, p.Y].BackgroundImage = img;
                     }
 
@@ -428,7 +465,7 @@ namespace PatternsMaker
                                 {
                                     for (int j = min_rows; j <= max_rows; j++)
                                     {
-
+                                        img = new Bitmap(img, gridControl1[j,i].CellModel.GetCellSize(j,i));
                                         gridControl1[j, i].BackgroundImage = img;
                                     }
                                 }
@@ -437,6 +474,8 @@ namespace PatternsMaker
                             {
                                 int cols = int.Parse(selected_cell_block.ToString().Split(delcol)[1]);
                                 int rows = int.Parse(selected_cell_block.ToString().Split(delrow)[1].Split(delcol)[0]);
+                               
+                                img = new Bitmap(img, gridControl1[rows, cols].CellModel.GetCellSize(rows, cols));
                                 gridControl1[rows, cols].BackgroundImage = img;
                             }
                         }
@@ -445,6 +484,7 @@ namespace PatternsMaker
                             // get current active cell
                             if (gridControl1.CurrentCell.ColIndex > 0)
                             {
+                                img = new Bitmap(img, gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].CellModel.GetCellSize(gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex));
 
                                 gridControl1[gridControl1.CurrentCell.RowIndex, gridControl1.CurrentCell.ColIndex].BackgroundImage = img;
                             }
@@ -1269,7 +1309,9 @@ namespace PatternsMaker
 
         private void button5_Click_1(object sender, EventArgs e)
         {
+            // TODO clear when there is only one cell selected
             gridControl1.ClearCells(gridControl1.Selections.Ranges, true);
+            
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
@@ -1406,6 +1448,224 @@ namespace PatternsMaker
         private void integerTextBox7_TextChanged(object sender, EventArgs e)
         {
             y = int.Parse(integerTextBox7.Text);
+        }
+
+        private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+
+        }
+
+        private void KnittingTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox16_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView6_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox8_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox7_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox6_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox10_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox11_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox9_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listView4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CrochetTab_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox14_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox13_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox12_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button15_Click(object sender, EventArgs e)
+
+        {
+            List<Point> selected = get_selected_cells();
+            Console.WriteLine(selected[0].X +" "+ selected[0].Y + " " + selected[selected.Count - 1].X + " " + selected[selected.Count - 1].Y);
+            gridControl1.CoveredRanges.Add(GridRangeInfo.Cells(selected[0].Y, selected[0].X , selected[selected.Count-1].Y, selected[selected.Count-1].X));
         }
     }
 
