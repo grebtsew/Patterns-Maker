@@ -52,10 +52,11 @@
             System.Windows.Forms.ListViewItem listViewItem62 = new System.Windows.Forms.ListViewItem("", 19);
             System.Windows.Forms.ListViewItem listViewItem63 = new System.Windows.Forms.ListViewItem("", 20);
             System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            Syncfusion.Windows.Forms.Diagram.Binding binding1 = new Syncfusion.Windows.Forms.Diagram.Binding();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.flowLayout1 = new Syncfusion.Windows.Forms.Tools.FlowLayout(this.components);
-            this.KnittingTab = new System.Windows.Forms.TabPage();
+            this.Generator = new System.Windows.Forms.TabPage();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.listView7 = new System.Windows.Forms.ListView();
@@ -91,7 +92,7 @@
             this.Generate = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.openImagebutton = new System.Windows.Forms.Button();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.FlowChart = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.listView5 = new System.Windows.Forms.ListView();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
@@ -99,7 +100,8 @@
             this.button10 = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.listView4 = new System.Windows.Forms.ListView();
-            this.CrochetTab = new System.Windows.Forms.TabPage();
+            this.GridView = new System.Windows.Forms.TabPage();
+            this.button15 = new System.Windows.Forms.Button();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
@@ -130,10 +132,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.flowLayout2 = new Syncfusion.Windows.Forms.Tools.FlowLayout(this.components);
-            this.button15 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.flowLayout1)).BeginInit();
-            this.KnittingTab.SuspendLayout();
+            this.diagram1 = new Syncfusion.Windows.Forms.Diagram.Controls.Diagram(this.components);
+            this.model1 = new Syncfusion.Windows.Forms.Diagram.Model(this.components);
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.button16 = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.Generator.SuspendLayout();
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox4)).BeginInit();
             this.groupBox15.SuspendLayout();
@@ -145,11 +149,11 @@
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox6)).BeginInit();
-            this.tabPage1.SuspendLayout();
+            this.FlowChart.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox9.SuspendLayout();
-            this.CrochetTab.SuspendLayout();
+            this.GridView.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -164,7 +168,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.flowLayout2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagram1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.model1)).BeginInit();
+            this.groupBox17.SuspendLayout();
             this.SuspendLayout();
             // 
             // imageList2
@@ -178,27 +184,27 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog1_FileOk);
             // 
-            // KnittingTab
+            // Generator
             // 
-            this.KnittingTab.Controls.Add(this.progressBar1);
-            this.KnittingTab.Controls.Add(this.groupBox16);
-            this.KnittingTab.Controls.Add(this.groupBox15);
-            this.KnittingTab.Controls.Add(this.groupBox8);
-            this.KnittingTab.Controls.Add(this.groupBox7);
-            this.KnittingTab.Controls.Add(this.groupBox6);
-            this.KnittingTab.Controls.Add(this.button8);
-            this.KnittingTab.Controls.Add(this.button7);
-            this.KnittingTab.Controls.Add(this.Generate);
-            this.KnittingTab.Controls.Add(this.listView2);
-            this.KnittingTab.Controls.Add(this.openImagebutton);
-            this.KnittingTab.Location = new System.Drawing.Point(4, 25);
-            this.KnittingTab.Name = "KnittingTab";
-            this.KnittingTab.Padding = new System.Windows.Forms.Padding(3);
-            this.KnittingTab.Size = new System.Drawing.Size(1430, 566);
-            this.KnittingTab.TabIndex = 1;
-            this.KnittingTab.Text = "Generate";
-            this.KnittingTab.UseVisualStyleBackColor = true;
-            this.KnittingTab.Click += new System.EventHandler(this.KnittingTab_Click);
+            this.Generator.Controls.Add(this.progressBar1);
+            this.Generator.Controls.Add(this.groupBox16);
+            this.Generator.Controls.Add(this.groupBox15);
+            this.Generator.Controls.Add(this.groupBox8);
+            this.Generator.Controls.Add(this.groupBox7);
+            this.Generator.Controls.Add(this.groupBox6);
+            this.Generator.Controls.Add(this.button8);
+            this.Generator.Controls.Add(this.button7);
+            this.Generator.Controls.Add(this.Generate);
+            this.Generator.Controls.Add(this.listView2);
+            this.Generator.Controls.Add(this.openImagebutton);
+            this.Generator.Location = new System.Drawing.Point(4, 25);
+            this.Generator.Name = "Generator";
+            this.Generator.Padding = new System.Windows.Forms.Padding(3);
+            this.Generator.Size = new System.Drawing.Size(1431, 561);
+            this.Generator.TabIndex = 1;
+            this.Generator.Text = "Generate";
+            this.Generator.UseVisualStyleBackColor = true;
+            this.Generator.Click += new System.EventHandler(this.KnittingTab_Click);
             // 
             // progressBar1
             // 
@@ -590,25 +596,27 @@
             this.openImagebutton.UseVisualStyleBackColor = true;
             this.openImagebutton.Click += new System.EventHandler(this.button5_Click);
             // 
-            // tabPage1
+            // FlowChart
             // 
-            this.tabPage1.Controls.Add(this.groupBox10);
-            this.tabPage1.Controls.Add(this.groupBox11);
-            this.tabPage1.Controls.Add(this.groupBox9);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1430, 566);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "Float Pattern";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            this.FlowChart.Controls.Add(this.groupBox17);
+            this.FlowChart.Controls.Add(this.diagram1);
+            this.FlowChart.Controls.Add(this.groupBox10);
+            this.FlowChart.Controls.Add(this.groupBox11);
+            this.FlowChart.Controls.Add(this.groupBox9);
+            this.FlowChart.Location = new System.Drawing.Point(4, 25);
+            this.FlowChart.Name = "FlowChart";
+            this.FlowChart.Size = new System.Drawing.Size(1368, 561);
+            this.FlowChart.TabIndex = 2;
+            this.FlowChart.Text = "Float Pattern";
+            this.FlowChart.UseVisualStyleBackColor = true;
+            this.FlowChart.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // groupBox10
             // 
             this.groupBox10.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox10.Controls.Add(this.listView5);
-            this.groupBox10.Location = new System.Drawing.Point(899, 3);
+            this.groupBox10.Location = new System.Drawing.Point(1217, 3);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(148, 522);
             this.groupBox10.TabIndex = 11;
@@ -714,26 +722,36 @@
             this.listView4.View = System.Windows.Forms.View.List;
             this.listView4.SelectedIndexChanged += new System.EventHandler(this.listView4_SelectedIndexChanged);
             // 
-            // CrochetTab
+            // GridView
             // 
-            this.CrochetTab.Controls.Add(this.button15);
-            this.CrochetTab.Controls.Add(this.groupBox14);
-            this.CrochetTab.Controls.Add(this.groupBox13);
-            this.CrochetTab.Controls.Add(this.groupBox12);
-            this.CrochetTab.Controls.Add(this.groupBox5);
-            this.CrochetTab.Controls.Add(this.groupBox4);
-            this.CrochetTab.Controls.Add(this.groupBox3);
-            this.CrochetTab.Controls.Add(this.groupBox2);
-            this.CrochetTab.Controls.Add(this.gridControl1);
-            this.CrochetTab.Controls.Add(this.groupBox1);
-            this.CrochetTab.Location = new System.Drawing.Point(4, 25);
-            this.CrochetTab.Name = "CrochetTab";
-            this.CrochetTab.Padding = new System.Windows.Forms.Padding(3);
-            this.CrochetTab.Size = new System.Drawing.Size(1430, 566);
-            this.CrochetTab.TabIndex = 0;
-            this.CrochetTab.Text = "Grid Pattern";
-            this.CrochetTab.UseVisualStyleBackColor = true;
-            this.CrochetTab.Click += new System.EventHandler(this.CrochetTab_Click);
+            this.GridView.Controls.Add(this.button15);
+            this.GridView.Controls.Add(this.groupBox14);
+            this.GridView.Controls.Add(this.groupBox13);
+            this.GridView.Controls.Add(this.groupBox12);
+            this.GridView.Controls.Add(this.groupBox5);
+            this.GridView.Controls.Add(this.groupBox4);
+            this.GridView.Controls.Add(this.groupBox3);
+            this.GridView.Controls.Add(this.groupBox2);
+            this.GridView.Controls.Add(this.gridControl1);
+            this.GridView.Controls.Add(this.groupBox1);
+            this.GridView.Location = new System.Drawing.Point(4, 25);
+            this.GridView.Name = "GridView";
+            this.GridView.Padding = new System.Windows.Forms.Padding(3);
+            this.GridView.Size = new System.Drawing.Size(1431, 561);
+            this.GridView.TabIndex = 0;
+            this.GridView.Text = "Grid Pattern";
+            this.GridView.UseVisualStyleBackColor = true;
+            this.GridView.Click += new System.EventHandler(this.CrochetTab_Click);
+            // 
+            // button15
+            // 
+            this.button15.Location = new System.Drawing.Point(492, 70);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(88, 24);
+            this.button15.TabIndex = 11;
+            this.button15.Text = "Merge";
+            this.button15.UseVisualStyleBackColor = true;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
             // 
             // groupBox14
             // 
@@ -901,9 +919,9 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.listView3);
-            this.groupBox4.Location = new System.Drawing.Point(1279, 65);
+            this.groupBox4.Location = new System.Drawing.Point(1280, 65);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(145, 457);
+            this.groupBox4.Size = new System.Drawing.Size(145, 452);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Color";
@@ -917,7 +935,7 @@
             this.listView3.HideSelection = false;
             this.listView3.Location = new System.Drawing.Point(7, 36);
             this.listView3.Name = "listView3";
-            this.listView3.Size = new System.Drawing.Size(132, 400);
+            this.listView3.Size = new System.Drawing.Size(132, 395);
             this.listView3.TabIndex = 0;
             this.listView3.UseCompatibleStateImageBehavior = false;
             this.listView3.View = System.Windows.Forms.View.List;
@@ -1037,7 +1055,7 @@
             this.gridControl1.Office2010ScrollBarsColorScheme = Syncfusion.Windows.Forms.Office2010ColorScheme.Black;
             this.gridControl1.RowCount = 1000;
             this.gridControl1.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeIntoCode;
-            this.gridControl1.Size = new System.Drawing.Size(1123, 421);
+            this.gridControl1.Size = new System.Drawing.Size(1124, 416);
             this.gridControl1.SmartSizeBox = false;
             this.gridControl1.TabIndex = 5;
             this.gridControl1.Text = "gridControl1";
@@ -1085,7 +1103,7 @@
             this.groupBox1.Controls.Add(this.listView1);
             this.groupBox1.Location = new System.Drawing.Point(6, 90);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(138, 432);
+            this.groupBox1.Size = new System.Drawing.Size(138, 427);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Symbols";
@@ -1102,7 +1120,7 @@
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(3, 21);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(129, 390);
+            this.listView1.Size = new System.Drawing.Size(129, 385);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Tile;
@@ -1113,25 +1131,86 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.CrochetTab);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.KnittingTab);
-            this.tabControl1.Location = new System.Drawing.Point(-1, 2);
+            this.tabControl1.Controls.Add(this.GridView);
+            this.tabControl1.Controls.Add(this.FlowChart);
+            this.tabControl1.Controls.Add(this.Generator);
+            this.tabControl1.Location = new System.Drawing.Point(61, 7);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1438, 595);
+            this.tabControl1.Size = new System.Drawing.Size(1376, 590);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
-            // button15
+            // diagram1
             // 
-            this.button15.Location = new System.Drawing.Point(492, 70);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(88, 24);
-            this.button15.TabIndex = 11;
-            this.button15.Text = "Merge";
-            this.button15.UseVisualStyleBackColor = true;
-            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.diagram1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            binding1.DefaultConnector = null;
+            binding1.DefaultNode = null;
+            binding1.Diagram = this.diagram1;
+            binding1.Id = null;
+            binding1.Label = ((System.Collections.Generic.List<string>)(resources.GetObject("binding1.Label")));
+            binding1.ParentId = null;
+            this.diagram1.Binding = binding1;
+            this.diagram1.Controller.Constraint = Syncfusion.Windows.Forms.Diagram.Constraints.PageEditable;
+            this.diagram1.Controller.DefaultConnectorTool = Syncfusion.Windows.Forms.Diagram.ConnectorTool.OrgLineConnectorTool;
+            this.diagram1.Controller.PasteOffset = new System.Drawing.SizeF(10F, 10F);
+            this.diagram1.EnableTouchMode = false;
+            this.diagram1.LayoutManager = null;
+            this.diagram1.Location = new System.Drawing.Point(157, 63);
+            this.diagram1.Model = this.model1;
+            this.diagram1.Name = "diagram1";
+            this.diagram1.ScrollVirtualBounds = ((System.Drawing.RectangleF)(resources.GetObject("diagram1.ScrollVirtualBounds")));
+            this.diagram1.Size = new System.Drawing.Size(1054, 462);
+            this.diagram1.SmartSizeBox = false;
+            this.diagram1.TabIndex = 12;
+            this.diagram1.Text = "diagram1";
+            // 
+            // 
+            // 
+            this.diagram1.View.ClientRectangle = new System.Drawing.Rectangle(0, 0, 0, 0);
+            this.diagram1.View.Controller = this.diagram1.Controller;
+            this.diagram1.View.Grid.MinPixelSpacing = 4F;
+            this.diagram1.View.ScrollVirtualBounds = ((System.Drawing.RectangleF)(resources.GetObject("resource.ScrollVirtualBounds")));
+            this.diagram1.View.ZoomType = Syncfusion.Windows.Forms.Diagram.ZoomType.Center;
+            this.diagram1.Click += new System.EventHandler(this.diagram1_Click);
+            // 
+            // model1
+            // 
+            this.model1.AlignmentType = AlignmentType.SelectedNode;
+            this.model1.BackgroundStyle.PathBrushStyle = Syncfusion.Windows.Forms.Diagram.PathGradientBrushStyle.RectangleCenter;
+            this.model1.DocumentScale.DisplayName = "No Scale";
+            this.model1.DocumentScale.Height = 1F;
+            this.model1.DocumentScale.Width = 1F;
+            this.model1.DocumentSize.Height = 1169F;
+            this.model1.DocumentSize.Width = 827F;
+            this.model1.LineStyle.DashPattern = null;
+            this.model1.LineStyle.LineColor = System.Drawing.Color.Black;
+            this.model1.LogicalSize = new System.Drawing.SizeF(827F, 1169F);
+            this.model1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.model1.ShadowStyle.Color = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            this.model1.ShadowStyle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))), ((int)(((byte)(105)))));
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.button16);
+            this.groupBox17.Location = new System.Drawing.Point(341, 3);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(89, 54);
+            this.groupBox17.TabIndex = 11;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "Functions";
+            // 
+            // button16
+            // 
+            this.button16.Location = new System.Drawing.Point(6, 21);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(75, 24);
+            this.button16.TabIndex = 4;
+            this.button16.Text = "Clear";
+            this.button16.UseVisualStyleBackColor = true;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // Form1
             // 
@@ -1141,8 +1220,7 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Patterns Maker";
-            ((System.ComponentModel.ISupportInitialize)(this.flowLayout1)).EndInit();
-            this.KnittingTab.ResumeLayout(false);
+            this.Generator.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox4)).EndInit();
@@ -1159,11 +1237,11 @@
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox6)).EndInit();
-            this.tabPage1.ResumeLayout(false);
+            this.FlowChart.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
-            this.CrochetTab.ResumeLayout(false);
+            this.GridView.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
@@ -1182,7 +1260,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.flowLayout2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.diagram1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.model1)).EndInit();
+            this.groupBox17.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1190,8 +1270,7 @@
         #endregion
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ImageList imageList2;
-        private Syncfusion.Windows.Forms.Tools.FlowLayout flowLayout1;
-        private System.Windows.Forms.TabPage KnittingTab;
+        private System.Windows.Forms.TabPage Generator;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
@@ -1209,7 +1288,7 @@
         private System.Windows.Forms.Button Generate;
         private System.Windows.Forms.ListView listView2;
         private System.Windows.Forms.Button openImagebutton;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage FlowChart;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.ListView listView5;
         private System.Windows.Forms.GroupBox groupBox11;
@@ -1217,7 +1296,7 @@
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.ListView listView4;
-        private System.Windows.Forms.TabPage CrochetTab;
+        private System.Windows.Forms.TabPage GridView;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label13;
@@ -1259,7 +1338,6 @@
         private Syncfusion.Windows.Forms.Tools.IntegerTextBox integerTextBox3;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private Syncfusion.Windows.Forms.Tools.FlowLayout flowLayout2;
         private System.Windows.Forms.ListView listView7;
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.ListView listView6;
@@ -1268,6 +1346,11 @@
         private Syncfusion.Windows.Forms.Tools.IntegerTextBox integerTextBox7;
         private Syncfusion.Windows.Forms.Tools.IntegerTextBox integerTextBox6;
         private System.Windows.Forms.Button button15;
+        private Syncfusion.Windows.Forms.Diagram.Controls.Diagram diagram1;
+        private Syncfusion.Windows.Forms.Diagram.Model model1;
+        private System.Windows.Forms.GroupBox groupBox17;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

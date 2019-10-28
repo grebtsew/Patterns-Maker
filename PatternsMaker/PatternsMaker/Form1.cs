@@ -1,8 +1,10 @@
 ﻿using PatternsMaker.GeneratorTab;
+using Syncfusion.Windows.Forms.Diagram;
 using Syncfusion.Windows.Forms.Grid;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -11,15 +13,14 @@ using System.Windows.Forms;
 
 // TODO LIST
 
-// add symbol sophie was talking about
-// dragable tab
-// dragable tab save
-// dragable tab ctrl c ctrl v ctrl z
-// nevron??
+// show how much jarn/thread is needed of which color
+// use palette view!
+
 
 // MetroModernUI
-//Fancy form
-//ImageEditor
+// Fancy form
+// ImageEditor
+
 
 // low prio
 // fix nicer gui placeing and size
@@ -104,6 +105,7 @@ namespace PatternsMaker
 
             init_flowlayouts();
             init_symbollistviews();
+            init_flowchart();
         }
 
         private void init_symbollistviews()
@@ -132,7 +134,7 @@ namespace PatternsMaker
                 
             }
             
-            this.listView1.View = View.SmallIcon;
+            this.listView1.View = System.Windows.Forms.View.SmallIcon;
             ilist.ImageSize = new Size(50, 50);
             listView1.ShowGroups = true;
             this.listView1.SmallImageList = ilist;
@@ -154,6 +156,9 @@ namespace PatternsMaker
             {
                 flowLayoutPanel2.Controls.Add(new ColorBox());
             }
+            //Enable diagram rulers
+            diagram1.ShowRulers = true;
+
         }
 
         private void add_border(List<Point> cells)
@@ -319,8 +324,8 @@ namespace PatternsMaker
             byte[] b1bytes = new byte[bytes];
             byte[] b2bytes = new byte[bytes];
 
-            BitmapData bitmapData1 = bmp1.LockBits(new Rectangle(0, 0, bmp1.Width, bmp1.Height), ImageLockMode.ReadOnly, bmp1.PixelFormat);
-            BitmapData bitmapData2 = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, bmp2.PixelFormat);
+            BitmapData bitmapData1 = bmp1.LockBits(new System.Drawing.Rectangle(0, 0, bmp1.Width, bmp1.Height), ImageLockMode.ReadOnly, bmp1.PixelFormat);
+            BitmapData bitmapData2 = bmp2.LockBits(new System.Drawing.Rectangle(0, 0, bmp2.Width, bmp2.Height), ImageLockMode.ReadOnly, bmp2.PixelFormat);
 
             Marshal.Copy(bitmapData1.Scan0, b1bytes, 0, bytes);
             Marshal.Copy(bitmapData2.Scan0, b2bytes, 0, bytes);
@@ -952,7 +957,7 @@ namespace PatternsMaker
             {
                 progressBar1.Value = 5;
                 // pixelize 1
-                Bitmap image1 = Pixelate(loaded_image, new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x,y));
+                Bitmap image1 = Pixelate(loaded_image, new System.Drawing.Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x,y));
                 string key = listView2.Items.Count.ToString();
 
                 imageList2.ImageSize = new Size(listview_image_size, listview_image_size);
@@ -1030,7 +1035,7 @@ namespace PatternsMaker
                 progressBar1.Value = 75;
 
                 // combine first two 1
-                Bitmap image4 = Pixelate((Bitmap)newImage1.Clone(), new Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x, y));
+                Bitmap image4 = Pixelate((Bitmap)newImage1.Clone(), new System.Drawing.Rectangle(0, 0, loaded_image.Width, loaded_image.Height), new Point(x, y));
 
                 key = listView2.Items.Count.ToString();
 
@@ -1056,14 +1061,14 @@ namespace PatternsMaker
             {
                 if (transparencyFillColor.HasValue)
                     using (System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(Color.FromArgb(255, transparencyFillColor.Value)))
-                        gr.FillRectangle(myBrush, new Rectangle(0, 0, image.Width, image.Height));
-                gr.DrawImage(image, new Rectangle(0, 0, bp.Width, bp.Height));
+                        gr.FillRectangle(myBrush, new System.Drawing.Rectangle(0, 0, image.Width, image.Height));
+                gr.DrawImage(image, new System.Drawing.Rectangle(0, 0, bp.Width, bp.Height));
             }
             return bp;
         }
         public static Byte[] GetImageData(Bitmap sourceImage, out Int32 stride)
         {
-            BitmapData sourceData = sourceImage.LockBits(new Rectangle(0, 0, sourceImage.Width, sourceImage.Height), ImageLockMode.ReadOnly, sourceImage.PixelFormat);
+            BitmapData sourceData = sourceImage.LockBits(new System.Drawing.Rectangle(0, 0, sourceImage.Width, sourceImage.Height), ImageLockMode.ReadOnly, sourceImage.PixelFormat);
             stride = sourceData.Stride;
             Byte[] data = new Byte[stride * sourceImage.Height];
             Marshal.Copy(sourceData.Scan0, data, 0, data.Length);
@@ -1137,7 +1142,7 @@ namespace PatternsMaker
         public static Bitmap BuildImage(Byte[] sourceData, Int32 width, Int32 height, Int32 stride, PixelFormat pixelFormat, Color[] palette, Color? defaultColor)
         {
             Bitmap newImage = new Bitmap(width, height, pixelFormat);
-            BitmapData targetData = newImage.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, newImage.PixelFormat);
+            BitmapData targetData = newImage.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, newImage.PixelFormat);
             Int32 newDataWidth = ((Image.GetPixelFormatSize(pixelFormat) * width) + 7) / 8;
             // Compensate for possible negative stride on BMP format.
             Boolean isFlipped = stride < 0;
@@ -1178,7 +1183,7 @@ namespace PatternsMaker
         {
 
         }
-        private Bitmap Pixelate(Bitmap image, Rectangle rectangle, Point pixelateSize)
+        private Bitmap Pixelate(Bitmap image, System.Drawing.Rectangle rectangle, Point pixelateSize)
         {
             to_cells = new List<Cell>();
             Bitmap pixelated = new System.Drawing.Bitmap(image.Width, image.Height);
@@ -1188,7 +1193,7 @@ namespace PatternsMaker
             // make an exact copy of the bitmap provided
             using (Graphics graphics = System.Drawing.Graphics.FromImage(pixelated))
                 graphics.DrawImage(image, new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
-                    new Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
+                    new System.Drawing.Rectangle(0, 0, image.Width, image.Height), GraphicsUnit.Pixel);
             // look at every pixel in the rectangle while making sure we're within the image bounds
             for (Int32 xx = rectangle.X; xx < rectangle.X + rectangle.Width && xx < image.Width; xx += pixelateSize.X)
             {
@@ -1572,11 +1577,39 @@ namespace PatternsMaker
 
         private void button9_Click(object sender, EventArgs e)
         {
+            // open flowchart file
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK) // Test result.
+            {
+                string loaded_diagram_path = openFileDialog1.FileName;
+
+                try { 
+                diagram1.LoadBinary(loaded_diagram_path);
+                this.diagram1.Refresh();
+                } catch (Exception)
+                {
+                    // do nothing here, file is not of correct format!
+                }
+            }
 
         }
 
         private void button10_Click(object sender, EventArgs e)
         {
+            // save flowchart to file
+
+            if (this.saveFileDialog1.ShowDialog(this) == DialogResult.OK)
+            
+            {
+                // save as changeable
+                string FileName = this.saveFileDialog1.FileName;
+                this.diagram1.SaveBinary(FileName);
+
+                // save for printing
+                Bitmap img = (Bitmap)diagram1.ExportDiagramAsImage(true);
+                img.Save("Test.png");
+
+            }
 
         }
 
@@ -1661,11 +1694,57 @@ namespace PatternsMaker
         }
 
         private void button15_Click(object sender, EventArgs e)
-
         {
+            // Merge Cells
             List<Point> selected = get_selected_cells();
-            Console.WriteLine(selected[0].X +" "+ selected[0].Y + " " + selected[selected.Count - 1].X + " " + selected[selected.Count - 1].Y);
+            //Console.WriteLine(selected[0].X +" "+ selected[0].Y + " " + selected[selected.Count - 1].X + " " + selected[selected.Count - 1].Y);
             gridControl1.CoveredRanges.Add(GridRangeInfo.Cells(selected[0].Y, selected[0].X , selected[selected.Count-1].Y, selected[selected.Count-1].X));
+        }
+
+        private void init_flowchart()
+        {
+            //Enable scroll bars
+            diagram1.HScroll = true;
+            diagram1.VScroll = true;
+
+        }
+
+        private void diagram1_Click(object sender, EventArgs e)
+        {
+            /**/
+         
+            //Create a rectangular node
+            Syncfusion.Windows.Forms.Diagram.Rectangle rectangle
+                = new Syncfusion.Windows.Forms.Diagram.Rectangle(120, 120, 100, 70);
+
+            //Style the rectangular node
+            rectangle.FillStyle.Type = FillStyleType.LinearGradient;
+            rectangle.FillStyle.Color = Color.FromArgb(128, 0, 0);
+            rectangle.FillStyle.ForeColor = Color.FromArgb(225, 0, 0);
+
+            rectangle.ShadowStyle.Visible = true;
+
+            //Border style
+            rectangle.LineStyle.LineColor = Color.RosyBrown;
+            rectangle.LineStyle.LineWidth = 2.0f;
+            rectangle.LineStyle.LineJoin = LineJoin.Miter;
+
+            //Add a label to the rectangular node
+            Syncfusion.Windows.Forms.Diagram.Label label
+               = new Syncfusion.Windows.Forms.Diagram.Label();
+            label.Text = "Hello!";
+            label.FontStyle.Family = "Arial";
+            label.FontColorStyle.Color = Color.White;
+            rectangle.Labels.Add(label);
+
+            //Add the rectangular node to the model
+            diagram1.Model.AppendChild(rectangle);
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            // clear flowchart diagram
+            diagram1.Model.Clear();
         }
     }
 
