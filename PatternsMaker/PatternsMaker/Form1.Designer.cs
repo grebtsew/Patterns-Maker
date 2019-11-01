@@ -29,14 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            Syncfusion.Windows.Forms.Diagram.Binding binding2 = new Syncfusion.Windows.Forms.Diagram.Binding();
+            Syncfusion.Windows.Forms.Diagram.Binding binding1 = new Syncfusion.Windows.Forms.Diagram.Binding();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.diagram1 = new Syncfusion.Windows.Forms.Diagram.Controls.Diagram(this.components);
             this.model1 = new Syncfusion.Windows.Forms.Diagram.Model(this.components);
             this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.Generator = new System.Windows.Forms.TabPage();
-            this.button19 = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.listView7 = new System.Windows.Forms.ListView();
@@ -73,6 +72,12 @@
             this.listView2 = new System.Windows.Forms.ListView();
             this.openImagebutton = new System.Windows.Forms.Button();
             this.FlowChart = new System.Windows.Forms.TabPage();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button20 = new System.Windows.Forms.Button();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.button17 = new System.Windows.Forms.Button();
             this.button18 = new System.Windows.Forms.Button();
@@ -94,6 +99,7 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.button19 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
             this.integerTextBox1 = new Syncfusion.Windows.Forms.Tools.IntegerTextBox();
             this.FillCheckBox = new System.Windows.Forms.CheckBox();
@@ -118,12 +124,6 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.button20 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.diagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.model1)).BeginInit();
             this.Generator.SuspendLayout();
@@ -139,6 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox6)).BeginInit();
             this.FlowChart.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.groupBox18.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -158,7 +159,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.groupBox10.SuspendLayout();
             this.SuspendLayout();
             // 
             // diagram1
@@ -166,13 +166,13 @@
             this.diagram1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            binding2.DefaultConnector = null;
-            binding2.DefaultNode = null;
-            binding2.Diagram = this.diagram1;
-            binding2.Id = null;
-            binding2.Label = ((System.Collections.Generic.List<string>)(resources.GetObject("binding2.Label")));
-            binding2.ParentId = null;
-            this.diagram1.Binding = binding2;
+            binding1.DefaultConnector = null;
+            binding1.DefaultNode = null;
+            binding1.Diagram = this.diagram1;
+            binding1.Id = null;
+            binding1.Label = ((System.Collections.Generic.List<string>)(resources.GetObject("binding1.Label")));
+            binding1.ParentId = null;
+            this.diagram1.Binding = binding1;
             this.diagram1.Controller.Constraint = Syncfusion.Windows.Forms.Diagram.Constraints.PageEditable;
             this.diagram1.Controller.DefaultConnectorTool = Syncfusion.Windows.Forms.Diagram.ConnectorTool.OrgLineConnectorTool;
             this.diagram1.Controller.PasteOffset = new System.Drawing.SizeF(10F, 10F);
@@ -226,7 +226,6 @@
             // Generator
             // 
             this.Generator.BackColor = System.Drawing.Color.Gainsboro;
-            this.Generator.Controls.Add(this.button19);
             this.Generator.Controls.Add(this.progressBar1);
             this.Generator.Controls.Add(this.groupBox16);
             this.Generator.Controls.Add(this.groupBox15);
@@ -245,17 +244,6 @@
             this.Generator.TabIndex = 1;
             this.Generator.Text = "Generate";
             this.Generator.Click += new System.EventHandler(this.KnittingTab_Click);
-            // 
-            // button19
-            // 
-            this.button19.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.button19.Location = new System.Drawing.Point(1112, 429);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(312, 44);
-            this.button19.TabIndex = 18;
-            this.button19.Text = "Calculate Needed Materials";
-            this.button19.UseVisualStyleBackColor = true;
-            this.button19.Click += new System.EventHandler(this.button19_Click);
             // 
             // progressBar1
             // 
@@ -663,6 +651,66 @@
             this.FlowChart.Text = "Float Pattern";
             this.FlowChart.Click += new System.EventHandler(this.tabPage1_Click);
             // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.textBox2);
+            this.groupBox10.Controls.Add(this.textBox1);
+            this.groupBox10.Controls.Add(this.label7);
+            this.groupBox10.Controls.Add(this.label1);
+            this.groupBox10.Controls.Add(this.button20);
+            this.groupBox10.Location = new System.Drawing.Point(731, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(254, 54);
+            this.groupBox10.TabIndex = 12;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Size";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(124, 32);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 22);
+            this.textBox2.TabIndex = 10;
+            this.textBox2.Text = "500";
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(125, 9);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 22);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.Text = "1000";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(101, 8);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 17);
+            this.label7.TabIndex = 8;
+            this.label7.Text = "Y";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(101, 25);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 17);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "X";
+            // 
+            // button20
+            // 
+            this.button20.Location = new System.Drawing.Point(6, 21);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(75, 24);
+            this.button20.TabIndex = 4;
+            this.button20.Text = "Update Size";
+            this.button20.UseVisualStyleBackColor = true;
+            this.button20.Click += new System.EventHandler(this.button20_Click_1);
+            // 
             // groupBox18
             // 
             this.groupBox18.Controls.Add(this.button17);
@@ -836,7 +884,7 @@
             this.groupBox13.Controls.Add(this.pictureBox2);
             this.groupBox13.Location = new System.Drawing.Point(977, 3);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Size = new System.Drawing.Size(200, 67);
+            this.groupBox13.Size = new System.Drawing.Size(200, 72);
             this.groupBox13.TabIndex = 13;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Preview";
@@ -882,16 +930,27 @@
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.button19);
             this.groupBox12.Controls.Add(this.label12);
             this.groupBox12.Controls.Add(this.integerTextBox1);
             this.groupBox12.Controls.Add(this.FillCheckBox);
             this.groupBox12.Location = new System.Drawing.Point(701, 3);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(270, 44);
+            this.groupBox12.Size = new System.Drawing.Size(270, 72);
             this.groupBox12.TabIndex = 12;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Functions";
             this.groupBox12.Enter += new System.EventHandler(this.groupBox12_Enter);
+            // 
+            // button19
+            // 
+            this.button19.Location = new System.Drawing.Point(6, 42);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(258, 23);
+            this.button19.TabIndex = 14;
+            this.button19.Text = "Purchase List";
+            this.button19.UseVisualStyleBackColor = true;
+            this.button19.Click += new System.EventHandler(this.button19_Click_1);
             // 
             // label12
             // 
@@ -942,7 +1001,7 @@
             // 
             this.button15.Location = new System.Drawing.Point(9, 44);
             this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(88, 24);
+            this.button15.Size = new System.Drawing.Size(182, 24);
             this.button15.TabIndex = 11;
             this.button15.Text = "Merge";
             this.button15.UseVisualStyleBackColor = true;
@@ -1100,7 +1159,7 @@
             this.gridControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControl1.ColCount = 1000;
+            this.gridControl1.ColCount = 200;
             this.gridControl1.DefaultColWidth = 25;
             this.gridControl1.DefaultRowHeight = 25;
             this.gridControl1.GridOfficeScrollBars = Syncfusion.Windows.Forms.OfficeScrollBars.Office2010;
@@ -1109,7 +1168,7 @@
             this.gridControl1.Office2007ScrollBars = true;
             this.gridControl1.Office2007ScrollBarsColorScheme = Syncfusion.Windows.Forms.Office2007ColorScheme.Black;
             this.gridControl1.Office2010ScrollBarsColorScheme = Syncfusion.Windows.Forms.Office2010ColorScheme.Black;
-            this.gridControl1.RowCount = 1000;
+            this.gridControl1.RowCount = 200;
             this.gridControl1.SerializeCellsBehavior = Syncfusion.Windows.Forms.Grid.GridSerializeCellsBehavior.SerializeIntoCode;
             this.gridControl1.Size = new System.Drawing.Size(1145, 432);
             this.gridControl1.SmartSizeBox = false;
@@ -1157,9 +1216,9 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox1.Controls.Add(this.listView1);
-            this.groupBox1.Location = new System.Drawing.Point(6, 63);
+            this.groupBox1.Location = new System.Drawing.Point(6, 75);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(233, 445);
+            this.groupBox1.Size = new System.Drawing.Size(233, 433);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Symbols";
@@ -1177,7 +1236,7 @@
             this.listView1.LabelWrap = false;
             this.listView1.Location = new System.Drawing.Point(3, 18);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(227, 424);
+            this.listView1.Size = new System.Drawing.Size(227, 412);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_2);
@@ -1196,66 +1255,6 @@
             this.tabControl1.Size = new System.Drawing.Size(1525, 545);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.textBox2);
-            this.groupBox10.Controls.Add(this.textBox1);
-            this.groupBox10.Controls.Add(this.label7);
-            this.groupBox10.Controls.Add(this.label1);
-            this.groupBox10.Controls.Add(this.button20);
-            this.groupBox10.Location = new System.Drawing.Point(731, 3);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(254, 54);
-            this.groupBox10.TabIndex = 12;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Size";
-            // 
-            // button20
-            // 
-            this.button20.Location = new System.Drawing.Point(6, 21);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(75, 24);
-            this.button20.TabIndex = 4;
-            this.button20.Text = "Update Size";
-            this.button20.UseVisualStyleBackColor = true;
-            this.button20.Click += new System.EventHandler(this.button20_Click_1);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 25);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(17, 17);
-            this.label1.TabIndex = 7;
-            this.label1.Text = "X";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(101, 8);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(17, 17);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "Y";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(125, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 22);
-            this.textBox1.TabIndex = 9;
-            this.textBox1.Text = "1000";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(124, 32);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 22);
-            this.textBox2.TabIndex = 10;
-            this.textBox2.Text = "500";
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // Form1
             // 
@@ -1286,6 +1285,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.integerTextBox6)).EndInit();
             this.FlowChart.ResumeLayout(false);
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.groupBox18.ResumeLayout(false);
             this.groupBox17.ResumeLayout(false);
             this.groupBox11.ResumeLayout(false);
@@ -1309,8 +1310,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridControl1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.groupBox10.ResumeLayout(false);
-            this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1398,7 +1397,6 @@
         private System.Windows.Forms.GroupBox groupBox18;
         private System.Windows.Forms.Button button17;
         private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ListView listView4;
@@ -1409,6 +1407,7 @@
         private System.Windows.Forms.Button button20;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button button19;
     }
 }
 

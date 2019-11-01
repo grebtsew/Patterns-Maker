@@ -12,11 +12,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-// TODO LIST
-
-// show how much jarn/thread is needed of which color
-
-
 namespace PatternsMaker
 {
     public struct Cell
@@ -1766,12 +1761,10 @@ namespace PatternsMaker
             {
                 var item = listView4.SelectedItems[0]; // item to set
                 Bitmap img = (Bitmap)item.ImageList.Images[item.ImageIndex];
-
-
+                
                 // TODO set position to spawn them here
                 int px =0;
                 int py =0;
-
 
                 //Create a bitmap node
                 Syncfusion.Windows.Forms.Diagram.BitmapNode bitmap
@@ -1800,12 +1793,6 @@ namespace PatternsMaker
             this.diagram1.Model.HistoryManager.Redo();
         }
 
-        private void button19_Click(object sender, EventArgs e)
-        {
-            // TODO
-            // open new form here with information about how much jarn or thread is needed!
-
-        }
 
         private void diagram1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -1860,6 +1847,12 @@ namespace PatternsMaker
                 textBox2.Text = "0";
             }
             }
-            
+
+        private void button19_Click_1(object sender, EventArgs e)
+        {
+            // open purchaseForm
+            PurchaseForm f = new PurchaseForm(this.gridControl1, this.diagram1);
+            f.Show();
+        }
     }
 }
