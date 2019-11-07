@@ -124,6 +124,7 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.button21 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.diagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.model1)).BeginInit();
             this.Generator.SuspendLayout();
@@ -827,6 +828,7 @@
             // GridView
             // 
             this.GridView.BackColor = System.Drawing.Color.LightSlateGray;
+            this.GridView.Controls.Add(this.button21);
             this.GridView.Controls.Add(this.groupBox14);
             this.GridView.Controls.Add(this.groupBox13);
             this.GridView.Controls.Add(this.groupBox12);
@@ -893,7 +895,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(117, 11);
+            this.label14.Location = new System.Drawing.Point(97, 14);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(67, 17);
             this.label14.TabIndex = 2;
@@ -903,7 +905,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(117, 35);
+            this.label13.Location = new System.Drawing.Point(97, 37);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(77, 17);
             this.label13.TabIndex = 4;
@@ -912,7 +914,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(62, 21);
+            this.pictureBox3.Location = new System.Drawing.Point(42, 24);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(30, 30);
             this.pictureBox3.TabIndex = 1;
@@ -921,7 +923,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(26, 21);
+            this.pictureBox2.Location = new System.Drawing.Point(6, 24);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(30, 30);
             this.pictureBox2.TabIndex = 0;
@@ -1256,6 +1258,16 @@
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
+            // button21
+            // 
+            this.button21.Location = new System.Drawing.Point(1183, 52);
+            this.button21.Name = "button21";
+            this.button21.Size = new System.Drawing.Size(201, 23);
+            this.button21.TabIndex = 14;
+            this.button21.Text = "Set Cell Amount";
+            this.button21.UseVisualStyleBackColor = true;
+            this.button21.Click += new System.EventHandler(this.button21_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1408,6 +1420,7 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button21;
     }
 }
 

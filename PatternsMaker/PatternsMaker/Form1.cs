@@ -1854,5 +1854,12 @@ namespace PatternsMaker
             PurchaseForm f = new PurchaseForm(this.gridControl1, this.diagram1);
             f.Show();
         }
+
+        private void button21_Click(object sender, EventArgs e)
+        {
+            // add cells 
+            new GridResizeForm(gridControl1).Show();
+        }
+            
     }
 }
