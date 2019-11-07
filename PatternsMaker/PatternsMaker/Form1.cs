@@ -343,8 +343,9 @@ namespace PatternsMaker
                 var item = listView1.SelectedItems[0]; // item to set
                 Bitmap img = (Bitmap)item.ImageList.Images[item.ImageIndex];
 
+                pictureBox2.Image = new Bitmap(img, pictureBox2.Size);
+
                 img = new Bitmap(img, cell_size);
-                pictureBox2.Image = img;
                 img.MakeTransparent();
 
                 if (FillCheckBox.Checked)
@@ -827,7 +828,10 @@ namespace PatternsMaker
             foreach (int i in Enumerable.Range(0, nr_colors_in))
             {
                 //  Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
-
+                if(sortedPixelColors.Count <= i)
+                {
+                    continue;
+                }
                 // is already dmc
                 if (all_dmc_colors.Contains(sortedPixelColors[i]))
                 {
@@ -857,6 +861,10 @@ namespace PatternsMaker
             {
                 //   Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
                 // is already dmc
+                if (sortedPixelColors.Count <= i)
+                {
+                    continue;
+                }
                 if (all_dmc_colors.Contains(sortedPixelColors[i]))
                 {
                     ListViewItem item = new ListViewItem();
@@ -1293,7 +1301,7 @@ namespace PatternsMaker
 
         private void integerTextBox1_TextChanged(object sender, EventArgs e)
         {
-            fill_tresh = int.Parse(integerTextBox1.Text);
+            fill_tresh = int.Parse(integerTextBox1.Text.Replace(" ", ""));
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -1325,7 +1333,7 @@ namespace PatternsMaker
 
         private void button12_Click(object sender, EventArgs e)
         {
-            int i = int.Parse(integerTextBox2.Text);
+            int i = int.Parse(integerTextBox2.Text.Replace(" ", ""));
             cell_size = new Size(i, i);
             gridControl1.SetColWidth(0, gridControl1.ColCount, i);
             gridControl1.SetRowHeight(0, gridControl1.RowCount, i);
@@ -1352,7 +1360,7 @@ namespace PatternsMaker
 
         private void integerTextBox3_TextChanged(object sender, EventArgs e)
         {
-            nr_colors_in = int.Parse(integerTextBox3.Text);
+            nr_colors_in = int.Parse(integerTextBox3.Text.Replace(" ",""));
 
             // set size of listbox1 and update
             flowLayoutPanel1.Controls.Clear();
@@ -1366,7 +1374,7 @@ namespace PatternsMaker
 
         private void integerTextBox4_TextChanged(object sender, EventArgs e)
         {
-            nr_colors_out = int.Parse(integerTextBox4.Text);
+            nr_colors_out = int.Parse(integerTextBox4.Text.Replace(" ", ""));
 
             // set size of listbox2 and update
             flowLayoutPanel2.Controls.Clear();
@@ -1431,17 +1439,17 @@ namespace PatternsMaker
 
         private void integerTextBox5_TextChanged(object sender, EventArgs e)
         {
-            listview_image_size = int.Parse(integerTextBox5.Text);
+            listview_image_size = int.Parse(integerTextBox5.Text.Replace(" ", ""));
         }
 
         private void integerTextBox6_TextChanged(object sender, EventArgs e)
         {
-            x = int.Parse(integerTextBox6.Text);
+            x = int.Parse(integerTextBox6.Text.Replace(" ", ""));
         }
 
         private void integerTextBox7_TextChanged(object sender, EventArgs e)
         {
-            y = int.Parse(integerTextBox7.Text);
+            y = int.Parse(integerTextBox7.Text.Replace(" ", ""));
         }
 
         private void openFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)

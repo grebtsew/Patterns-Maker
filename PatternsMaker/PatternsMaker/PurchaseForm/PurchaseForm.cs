@@ -103,9 +103,9 @@ namespace PatternsMaker
             {
                 ListViewItem item = new ListViewItem();
                 item.BackColor = c.color ?? Color.White;
-                Console.WriteLine("doing color " + c);
+               // Console.WriteLine("doing color " + c);
                 float needed = (float)(get_distance_to_closest_cells(c.used_cells));
-                Console.WriteLine("done");
+                //Console.WriteLine("done");
                 item.Text ="DMC "+get_dmc_color_name(item.BackColor)+ "Nr of usages " + c.occurence + " needed in m "+needed; // todo
                 listView1.Items.Add(item);
             }
