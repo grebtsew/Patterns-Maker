@@ -23,11 +23,11 @@ Clone or download this repo:
 ```
 git clone git@github.com:grebtsew/Patterns-Maker.git
 ```
-
-To open and change code install Visual Studio 2019, and load the project file.
+## Develop
+To open and change code install `Visual Studio 2019`, and load the project `.sln` file.
 
 ## Start
-Load the project file in Visual Studio 2019 and run the program.
+Load the project file in `Visual Studio 2019` and run the program.
 
 ## GridControl
 All colors in the gridcontrol view are dmc colors for embroidery.
@@ -48,6 +48,8 @@ This is a list of know issues which will be handled when I have time. Please let
 
 * `Windows Forms` are an outdated technology and my plan is to implement the same program in `mvc` application.
 * Everything in this program is single threaded, which means the program will freeze when you run a function. This could be easily fixed with multithreading and delegate functions.
+* The code is currently a mess due to speedy development for demo. Code should be seperated into seperate files and renamed.
+* A installation or start package should be included so that nonedevelopers can run the program.
 
 # License
 This project utilizes the ![MIT LICENSE](LICENSE)
