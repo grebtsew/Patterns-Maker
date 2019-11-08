@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Syncfusion.Windows.Forms.Diagram.Controls;
+using Syncfusion.Windows.Forms.Grid;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Syncfusion.Windows.Forms.Diagram.Controls;
-using Syncfusion.Windows.Forms.Grid;
 
 namespace PatternsMaker
 {
@@ -30,7 +27,6 @@ namespace PatternsMaker
 
     public partial class PurchaseForm : Form
     {
-        float needed_embroidery = 0;
         private GridControl gridControl1;
         private GroupBox groupBox1;
         private Label label1;
@@ -80,7 +76,7 @@ namespace PatternsMaker
                                 tmp.occurence++;
                                 tmp.used_cells.Add(new Point(i, j));
                                 colorlist.Add(tmp);
-                                
+
                             }
                         }
                     }
@@ -89,7 +85,7 @@ namespace PatternsMaker
                     {
                         List<Point> plist = new List<Point>();
                         plist.Add(new Point(i, j));
-                        colorlist.Add(new CellItem(1, plist, this.gridControl1[i, j].BackColor, null, (float)(14+hole_per_cm*0.01)));
+                        colorlist.Add(new CellItem(1, plist, this.gridControl1[i, j].BackColor, null, (float)(14 + hole_per_cm * 0.01)));
                     }
                 }
             }
@@ -103,15 +99,15 @@ namespace PatternsMaker
             {
                 ListViewItem item = new ListViewItem();
                 item.BackColor = c.color ?? Color.White;
-               // Console.WriteLine("doing color " + c);
+                // Console.WriteLine("doing color " + c);
                 float needed = (float)(get_distance_to_closest_cells(c.used_cells));
                 //Console.WriteLine("done");
-                item.Text ="DMC "+get_dmc_color_name(item.BackColor)+ "Nr of usages " + c.occurence + " needed in m "+needed; // todo
+                item.Text = "DMC " + get_dmc_color_name(item.BackColor) + "Nr of usages " + c.occurence + " needed in m " + needed; // todo
                 listView1.Items.Add(item);
             }
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-          
-    }
+
+        }
 
         public double factorial_WhileLoop(int number)
         {
@@ -123,7 +119,7 @@ namespace PatternsMaker
             }
             return result;
         }
-        private float get_distance_to_closest_cells( List<Point> active_cells)
+        private float get_distance_to_closest_cells(List<Point> active_cells)
         {
             List<Point> used_cells = new List<Point>();
             Point closest_cell = Point.Empty;
@@ -136,12 +132,13 @@ namespace PatternsMaker
                 return 0;
             }
             int i = 0;
-            foreach (Point current in active_cells) {
-              //  Console.WriteLine(i + " Out of " + tot);
+            foreach (Point current in active_cells)
+            {
+                //  Console.WriteLine(i + " Out of " + tot);
                 used_cells.Add(current);
                 i++;
-                    foreach(Point next in active_cells)
-                    {
+                foreach (Point next in active_cells)
+                {
                     if (!used_cells.Contains(next))
                     {
 
@@ -150,8 +147,9 @@ namespace PatternsMaker
                             closest_cell = next;
                             xdif = Math.Abs(current.X - closest_cell.X);
                             ydif = Math.Abs(current.Y - closest_cell.Y);
-                            closest_dist=(float)Math.Sqrt(xdif * xdif + ydif * ydif); // pythagoras
-                        } else
+                            closest_dist = (float)Math.Sqrt(xdif * xdif + ydif * ydif); // pythagoras
+                        }
+                        else
                         {
                             xdif = Math.Abs(current.X - closest_cell.X);
                             ydif = Math.Abs(current.Y - closest_cell.Y);
@@ -163,15 +161,16 @@ namespace PatternsMaker
                             }
                         }
                     }
-                    }
-                    if(closest_dist != float.PositiveInfinity)
-                    {
-                    
+                }
+                if (closest_dist != float.PositiveInfinity)
+                {
 
-                    total_dist += (float)(closest_dist* (0.01 / (hole_per_cm * 0.1)) + (0.01 / (hole_per_cm * 0.1)));
+
+                    total_dist += (float)(closest_dist * (0.01 / (hole_per_cm * 0.1)) + (0.01 / (hole_per_cm * 0.1)));
                     closest_dist = float.PositiveInfinity;
                     closest_cell = Point.Empty;
-                    } else
+                }
+                else
                 {
                     total_dist += (float)(0.01 / (hole_per_cm * 0.1));
                 }
@@ -212,9 +211,9 @@ namespace PatternsMaker
         private string get_dmc_color_name(Color c)
         {
             int i = 0;
-            foreach(Color col in all_dmc_colors)
+            foreach (Color col in all_dmc_colors)
             {
-                if(col == c)
+                if (col == c)
                 {
                     return all_dmc_names[i];
                 }

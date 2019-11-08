@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PatternsMaker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Create and manage patterns.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Grebtsew")]
 [assembly: AssemblyProduct("PatternsMaker")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Daniel Westberg Copyright ©  2019")]
+[assembly: AssemblyTrademark("t")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

@@ -29,8 +29,6 @@ namespace PatternsMaker
             this.symbol = symbol;
         }
     }
-
-
     public partial class Form1 : Form
     {
         char[] delitem = { ';' }; char[] delcol = { 'C' };
@@ -69,7 +67,7 @@ namespace PatternsMaker
             InitializeComponent();
 
             initiate_dmc_colorpicker(listView3);
-          
+
             //To prevent the selection from particular range of cells
             this.gridControl1.SelectionChanging += gridControl1_SelectionChanging;
 
@@ -110,15 +108,15 @@ namespace PatternsMaker
                     ListViewItem item = new ListViewItem();
                     item.ImageIndex = ilist.Images.Count - 1;
                     item.Group = group;
-                   
+
                     listview.Items.Add(item);
-                    
+
                 }
 
             }
             listview.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-           // listview.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
-            ilist.ImageSize = new Size(32,32);
+            // listview.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            ilist.ImageSize = new Size(32, 32);
             listview.ShowGroups = true;
             listview.LargeImageList = ilist;
         }
@@ -272,7 +270,7 @@ namespace PatternsMaker
                 // open save dialog
 
                 // Save to xml
-                gridControl1.FileName = FileName+".xml";
+                gridControl1.FileName = FileName + ".xml";
                 gridControl1.SaveXml();
 
                 // Save to Excel
@@ -828,7 +826,7 @@ namespace PatternsMaker
             foreach (int i in Enumerable.Range(0, nr_colors_in))
             {
                 //  Console.WriteLine("Color: " + sortedPixelColors[i] + " occurences: " + sortedOccurence[i]);
-                if(sortedPixelColors.Count <= i)
+                if (sortedPixelColors.Count <= i)
                 {
                     continue;
                 }
@@ -1360,7 +1358,7 @@ namespace PatternsMaker
 
         private void integerTextBox3_TextChanged(object sender, EventArgs e)
         {
-            nr_colors_in = int.Parse(integerTextBox3.Text.Replace(" ",""));
+            nr_colors_in = int.Parse(integerTextBox3.Text.Replace(" ", ""));
 
             // set size of listbox1 and update
             flowLayoutPanel1.Controls.Clear();
@@ -1558,7 +1556,7 @@ namespace PatternsMaker
 
 
                 // save for printing
-                Bitmap img = (Bitmap)imageList2.Images[imageList2.Images.Count-1];
+                Bitmap img = (Bitmap)imageList2.Images[imageList2.Images.Count - 1];
                 img.Save(FileName + ".png");
             }
         }
@@ -1613,7 +1611,7 @@ namespace PatternsMaker
 
                 // save for printing
                 Bitmap img = (Bitmap)diagram1.ExportDiagramAsImage(true);
-                img.Save(FileName+".png");
+                img.Save(FileName + ".png");
 
             }
 
@@ -1731,7 +1729,7 @@ namespace PatternsMaker
             rectangle.FillStyle.Color = Color.FromArgb(128, 0, 0);
             rectangle.FillStyle.ForeColor = Color.FromArgb(225, 0, 0);
 
-           // rectangle.ShadowStyle.Visible = true;
+            // rectangle.ShadowStyle.Visible = true;
 
             //Border style
             rectangle.LineStyle.LineColor = Color.RosyBrown;
@@ -1759,7 +1757,7 @@ namespace PatternsMaker
 
         private void paletteGroupView1_GroupViewItemSelected(object sender, EventArgs e)
         {
-            
+
         }
 
         private void listView4_SelectedIndexChanged_2(object sender, EventArgs e)
@@ -1769,16 +1767,16 @@ namespace PatternsMaker
             {
                 var item = listView4.SelectedItems[0]; // item to set
                 Bitmap img = (Bitmap)item.ImageList.Images[item.ImageIndex];
-                
+
                 // TODO set position to spawn them here
-                int px =0;
-                int py =0;
+                int px = 0;
+                int py = 0;
 
                 //Create a bitmap node
                 Syncfusion.Windows.Forms.Diagram.BitmapNode bitmap
-                = new Syncfusion.Windows.Forms.Diagram.BitmapNode(img, new RectangleF(px,py,32,32));
+                = new Syncfusion.Windows.Forms.Diagram.BitmapNode(img, new RectangleF(px, py, 32, 32));
 
-               // bitmap.ShadowStyle.Visible = true;
+                // bitmap.ShadowStyle.Visible = true;
 
                 //Border style
                 bitmap.LineStyle.LineColor = Color.Black;
@@ -1804,7 +1802,8 @@ namespace PatternsMaker
 
         private void diagram1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.D) { 
+            if (e.KeyCode == Keys.D)
+            {
                 diagram1.Controller.DeactivateTool(diagram1.Controller.ActiveTool);
                 Console.WriteLine("hs");
             }
@@ -1824,12 +1823,12 @@ namespace PatternsMaker
 
         private void integerTextBox8_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void integerTextBox9_TextChanged(object sender, EventArgs e)
         {
-           
+
         }
 
         private void textBox1_TextChanged_1(object sender, EventArgs e)
@@ -1850,11 +1849,12 @@ namespace PatternsMaker
             try
             {
                 flowchart_width = int.Parse(textBox2.Text);
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 textBox2.Text = "0";
             }
-            }
+        }
 
         private void button19_Click_1(object sender, EventArgs e)
         {
@@ -1868,6 +1868,6 @@ namespace PatternsMaker
             // add cells 
             new GridResizeForm(gridControl1).Show();
         }
-            
+
     }
 }
