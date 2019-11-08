@@ -6,10 +6,7 @@
 
 
 # About
-This implementation is a Windows Form written in C#.
-It's main purpose is to simplify and manage the creation of crochet, knitting, embroidery, stitching patterns.
-This program lets you create patterns in a grid or a flowchart then save the pattern as a work file or image.
-This program also contains a generator of embroderiy that will let you easily create new embroderies of real life objects.
+Patterns maker is a `windows form` application with the main purpose to simplify and manage the creation of crochet, knitting, embroidery, stitching patterns. Patterns maker lets the user create patterns in either a gridcontrol or in a flowchart. The implementation is written in `C#`.
 
 # Syncfusion
 To simplify the implementation of a gridcontrol and flowchart i chose to use licensed nuget packages from Syncfusion.
@@ -22,21 +19,19 @@ Today they provide 800+ controls and frameworks for web, mobile, and desktop dev
 This part explains how to start, install and use this program.
 
 ## Install
-Follow these instruction to install program:
-
-
 Clone or download this repo:
 ```
-git clone ...
+git clone git@github.com:grebtsew/Patterns-Maker.git
 ```
-
-Install Visual Studio 2019, and load the project file.
+## Develop
+To open and change code install `Visual Studio 2019`, and load the project `.sln` file.
 
 ## Start
-Eighter load the project in visual studio
-
+Load the project file in `Visual Studio 2019` and run the program.
 
 ## GridControl
+All colors in the gridcontrol view are dmc colors for embroidery.
+
 See GridControl demo below:
 ![demo](images/demogrid.gif)
 
@@ -49,9 +44,13 @@ See Generator demo below:
 ![demo](images/demogen.gif)
 
 # Know Issues
-This is a list of know issues which will be handled when I have time. Please let me know if you find any issues with the implementation.
+This is a list of know issues which will be handled when I have time. Please let me know if you find any issues or need more functions within the implementation.
 
 * `Windows Forms` are an outdated technology and my plan is to implement the same program in `mvc` application.
+* Everything in this program is single threaded, which means the program will freeze when you run a function. This could be easily fixed with multithreading and delegate functions.
+* The code is currently a mess due to speedy development for demo. Code should be seperated into seperate files and renamed.
+* A installation or start package should be included so that nonedevelopers can run the program.
 
 # License
 This project utilizes the ![MIT LICENSE](LICENSE)
+
