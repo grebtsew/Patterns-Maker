@@ -22,6 +22,6 @@ jobs:
             6.0.x
             7.0.x
       - name: Restore dependencies
-        run: cd PatternsMaker | dotnet restore
+        run: dotnet restore ./PatternsMaker/
       - name: Build
-        run: cd PatternsMaker | dotnet build --no-restore -c debug
+        run: dotnet build --no-restore -c debug ./PatternsMaker/
