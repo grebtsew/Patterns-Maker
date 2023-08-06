@@ -1,40 +1,31 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: CI
 
 on:
-  push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+workflow_dispatch:
+push:
+branches: [ main ]
+pull_request:
+branches: [ main ]
+
 jobs:
-  build:
+build:
 
-    runs-on: windows-latest
+runs-on: windows-2019
 
-    steps:
-    - name: Checkout code.
-      uses: actions/checkout@v2
-          
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
+steps:
+- uses: actions/checkout@v2
 
-    - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+- name: Setup MSBuild
+  uses: microsoft/setup-msbuild@v1
 
-    - name: Setup Nuget
-      uses: Nuget/setup-nuget@v1.0.5
+- name: Setup NuGet
+  uses: NuGet/setup-nuget@v1.0.5
+  
+- name: setup-msbuild
+  uses: microsoft/setup-msbuild@v1.1
 
-#    - name: Restore nuget packages
-#      run: nuget restore SAPtoAPLv3Check/SAPtoAPLv3Check.csproj
+- name: Restore Packages
+  run: nuget restore ./PatternsMaker/PatternsMaker.sln
 
-#    - name: Build
-#      run: msbuild SAPtoAPLv3Check/SAPtoAPLv3Check.csproj /p:Configuration=Release
-
-      - name: Restore dependencies
-        run: dotnet restore ./PatternsMaker/PatternsMaker.sln
-      - name: Build
-        run: dotnet build --no-restore -c debug ./PatternsMaker/PatternsMaker.sln
+- name: Build solution
+  run: msbuild ./PatternsMaker/PatternsMaker.sln -t:rebuild -property:Configuration=Release
