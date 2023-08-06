@@ -1,31 +1,31 @@
 name: CI
 
 on:
-workflow_dispatch:
-push:
-branches: [ main ]
-pull_request:
-branches: [ main ]
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
-build:
+  build:
 
-runs-on: windows-2019
+  runs-on: windows-2019
 
-steps:
-- uses: actions/checkout@v2
+  steps:
+    - uses: actions/checkout@v2
 
-- name: Setup MSBuild
-  uses: microsoft/setup-msbuild@v1
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
 
-- name: Setup NuGet
-  uses: NuGet/setup-nuget@v1.0.5
-  
-- name: setup-msbuild
-  uses: microsoft/setup-msbuild@v1.1
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.5
 
-- name: Restore Packages
-  run: nuget restore ./PatternsMaker/PatternsMaker.sln
+    - name: setup-msbuild
+      uses: microsoft/setup-msbuild@v1.1
 
-- name: Build solution
-  run: msbuild ./PatternsMaker/PatternsMaker.sln -t:rebuild -property:Configuration=Release
+    - name: Restore Packages
+      run: nuget restore ./PatternsMaker/PatternsMaker.sln
+
+    - name: Build solution
+      run: msbuild ./PatternsMaker/PatternsMaker.sln -t:rebuild -property:Configuration=Release
